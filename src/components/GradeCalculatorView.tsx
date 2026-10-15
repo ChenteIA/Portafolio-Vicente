@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { EASE, DUR, SEQ, heroGroup, heroItem, sidebarGroup, sidebarPanel, statTile } from "../motion";
 import { 
   Calculator, 
   Plus, 
@@ -177,6 +178,17 @@ export default function GradeCalculatorView() {
   const [selectedUni, setSelectedUni] = useState<UniKey>("UNICA");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const uniConf = UNIVERSITIES[selectedUni];
+  const reduceMotion = useReducedMotion();
+
+  // La coreografía de entrada solo aplica al cargar la vista; después,
+  // agregar un curso o cambiar de universidad anima sin retrasos.
+  const introRef = useRef(true);
+  useEffect(() => {
+    const t = setTimeout(() => { introRef.current = false; }, 900);
+    return () => clearTimeout(t);
+  }, []);
+  const cardDelay = (i: number) =>
+    introRef.current ? SEQ.cards + Math.min(i, SEQ.maxStaggered) * SEQ.cardStagger : 0;
 
   // Map courses per university
   const [coursesByUni, setCoursesByUni] = useState<Record<UniKey, Course[]>>({} as any);
@@ -345,21 +357,26 @@ export default function GradeCalculatorView() {
         style={{ backgroundImage: `linear-gradient(to bottom, ${uniConf.primaryHex}, transparent)` }} 
       />
 
-      <div className="mb-10 flex flex-col xl:flex-row xl:items-start justify-between gap-6 border-b border-white/5 pb-8 relative z-50">
+      <motion.div
+        variants={heroGroup}
+        initial="hidden"
+        animate="show"
+        className="mb-10 flex flex-col xl:flex-row xl:items-start justify-between gap-6 border-b border-white/5 pb-8 relative z-50"
+      >
         <div>
-          <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest mb-3 transition-colors duration-500" style={{ color: uniConf.primaryHex }}>
+          <motion.div variants={heroItem} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest mb-3 transition-colors duration-500" style={{ color: uniConf.primaryHex }}>
             <Calculator className="w-4 h-4 animate-pulse" />
             <span>Sistema Multi-Universidad del Perú</span>
-          </div>
-          <h1 className="text-3xl md:text-5xl font-display font-extrabold text-white tracking-tight flex flex-col sm:flex-row sm:items-center gap-3">
+          </motion.div>
+          <motion.h1 variants={heroItem} className="text-3xl md:text-5xl font-display font-extrabold text-white tracking-tight flex flex-col sm:flex-row sm:items-center gap-3">
              Calculadora de Notas
-          </h1>
-          <p className="text-sm text-[#e2bfb0]/70 max-w-3xl mt-2 leading-relaxed">
+          </motion.h1>
+          <motion.p variants={heroItem} className="text-sm text-[#e2bfb0]/70 max-w-3xl mt-2 leading-relaxed">
             Selecciona tu universidad para aplicar automáticamente los umbrales de aprobación, fórmulas de ponderación y reglas de redondeo vigentes según los últimos reglamentos y sílabos institucionales.
-          </p>
+          </motion.p>
         </div>
 
-        <div className="flex flex-col gap-3 shrink-0">
+        <motion.div variants={heroItem} className="flex flex-col gap-3 shrink-0">
           <div className="relative min-w-[280px]">
             {/* Custom Select Button */}
             <button
@@ -438,20 +455,20 @@ export default function GradeCalculatorView() {
               <span>Limpiar</span>
             </button>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
         
         {/* COURSES LIST */}
         <div className="lg:col-span-8 space-y-6">
-          <AnimatePresence initial={false}>
-            {calculatedCourses.map(({ course, metrics }) => (
+          <AnimatePresence>
+            {calculatedCourses.map(({ course, metrics }, i) => (
               <motion.div
                 key={`${selectedUni}-${course.id}`} // Force re-render animation when swapping
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, y: 16, scale: 0.985 }}
+                animate={{ opacity: 1, y: 0, scale: 1, transition: { duration: DUR.standard, ease: EASE.standard, delay: cardDelay(i) } }}
+                exit={{ opacity: 0, scale: 0.97, transition: { duration: DUR.quick, ease: [0.3, 0, 1, 1] } }}
                 className={`course-glass-panel rounded-3xl p-6 relative overflow-hidden transition-all ${
                   metrics.status === "DPI"
                     ? "border-rose-500/30 bg-rose-500/5"
@@ -587,7 +604,9 @@ export default function GradeCalculatorView() {
             ))}
           </AnimatePresence>
 
-          <button
+          <motion.button
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0, transition: { duration: DUR.standard, ease: EASE.standard, delay: cardDelay(calculatedCourses.length) } }}
             onClick={handleAddCourse}
             className="w-full relative overflow-hidden group course-glass-panel border-dashed rounded-3xl p-6 flex flex-col items-center justify-center gap-3 transition-all hover:bg-white/[0.04] cursor-pointer min-h-[140px]"
           >
@@ -598,26 +617,37 @@ export default function GradeCalculatorView() {
               <Plus className="w-6 h-6" />
             </div>
             <span className="font-bold text-white/70 group-hover:text-white transition-colors">Agregar otro curso</span>
-          </button>
+          </motion.button>
         </div>
 
         {/* STATS PANEL */}
-        <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-32">
-          <div className="glass-panel bg-[#161a23]/60 p-6 rounded-3xl space-y-6 relative overflow-hidden border-t-[3px] transition-colors duration-500" style={{ borderTopColor: uniConf.primaryHex }}>
+        <motion.div variants={sidebarGroup} initial="hidden" animate="show" className="lg:col-span-4 space-y-6 lg:sticky lg:top-32">
+          <motion.div variants={sidebarPanel} className="glass-panel bg-[#161a23]/60 p-6 rounded-3xl space-y-6 relative overflow-hidden border-t-[3px] transition-colors duration-500" style={{ borderTopColor: uniConf.primaryHex }}>
+            {/* Capa ambiental: el color de la universidad "respira" despacio bajo el borde */}
+            {!reduceMotion && (
+              <motion.div
+                aria-hidden
+                className="absolute inset-x-0 top-0 h-24 pointer-events-none"
+                style={{ backgroundImage: `linear-gradient(to bottom, ${uniConf.primaryHex}22, transparent)` }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0.4, 1, 0.4] }}
+                transition={{ delay: 1, duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              />
+            )}
             <div className="flex items-center gap-2">
               <Award className="w-5 h-5 transition-colors duration-500" style={{ color: uniConf.primaryHex }} />
               <span className="text-xs font-extrabold text-white uppercase tracking-wider">General: {uniConf.short}</span>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-[#0a0f18] border border-white/5 rounded-2xl p-4 text-center">
+              <motion.div variants={statTile} className="bg-[#0a0f18] border border-white/5 rounded-2xl p-4 text-center">
                 <span className="text-[9px] text-[#e2bfb0]/55 font-bold uppercase block">Ponderado General</span>
                 <span className="text-3xl font-display font-black text-white tracking-widest block mt-1.5">{averageGPA > 0 ? averageGPA.toFixed(2) : "—"}</span>
-              </div>
-              <div className="bg-[#0a0f18] border border-white/5 rounded-2xl p-4 text-center">
+              </motion.div>
+              <motion.div variants={statTile} className="bg-[#0a0f18] border border-white/5 rounded-2xl p-4 text-center">
                  <span className="text-[9px] text-[#e2bfb0]/55 font-bold uppercase block">Aprobados (Mín {uniConf.minApproval})</span>
                  <span className="text-3xl font-display font-black tracking-widest block mt-1.5 transition-colors duration-500" style={{ color: passedCoursesCount > 0 ? uniConf.primaryHex : "white" }}>{passedCoursesCount}/{courses.length}</span>
-              </div>
+              </motion.div>
             </div>
 
             <div className="bg-white/5 rounded-2xl p-4 text-[11px] text-[#dee2f0]/80 leading-relaxed border border-white/5">
@@ -630,9 +660,9 @@ export default function GradeCalculatorView() {
                  <span className="block mt-1">Ingresa calificaciones validas para calcular.</span>
                )}
             </div>
-          </div>
+          </motion.div>
 
-          <div className="glass-panel border-white/5 p-6 rounded-3xl space-y-4">
+          <motion.div variants={sidebarPanel} className="glass-panel border-white/5 p-6 rounded-3xl space-y-4">
             <div className="flex items-center gap-2">
               <FileText className="w-5 h-5 transition-colors duration-500" style={{ color: uniConf.primaryHex }} />
               <h3 className="text-xs font-extrabold text-white uppercase tracking-wider">Reglamento: {uniConf.short}</h3>
@@ -654,8 +684,8 @@ export default function GradeCalculatorView() {
                 <p className="text-[11px] leading-relaxed">{uniConf.sustitutorioRule}</p>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

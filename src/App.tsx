@@ -9,6 +9,7 @@
  */
 
 import React, { useState } from "react";
+import { MotionConfig } from "motion/react";
 import Navbar from "./components/Navbar";
 import PortfolioView from "./components/PortfolioView";
 import GradeCalculatorView from "./components/GradeCalculatorView";
@@ -17,7 +18,8 @@ export default function App() {
   const [currentTab, setCurrentTab] = useState<string>("portfolio");
 
   return (
-    <>
+    // Respeta "reducir movimiento" del sistema: quita desplazamientos y deja solo fundidos.
+    <MotionConfig reducedMotion="user">
       <div className="min-h-screen bg-[#0f131d]/90 text-[#dee2f0] antialiased selection:bg-[#ff6b00] selection:text-white relative flex flex-col">
       {/* Handcrafted tech grid background overlay */}
       <div className="fixed inset-0 tech-grid pointer-events-none opacity-[0.35] z-0" />
@@ -54,7 +56,7 @@ export default function App() {
         </div>
       </footer>
     </div>
-    </>
+    </MotionConfig>
   );
 }
 
