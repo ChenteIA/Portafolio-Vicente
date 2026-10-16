@@ -1,13 +1,12 @@
-# Chente IA
+# Portafolio · Vicente Celis Arias
 
-Tu tutor personal de Inteligencia Artificial para el repaso de cursos universitarios y escolares. Explora recursos, proyectos, sílabos, cuestionarios avanzados y resúmenes de estudio.
+Portafolio personal de Vicente Celis Arias, matemático e informático (UNICA). Presenta trayectoria, proyectos y demos interactivas.
 
 ## 🚀 Características
 
-- **Tutoría Personalizada**: Integración de modelos avanzados de IA (como Gemini, Claude, Qwen).
-- **Herramientas Educativas**: Calculadora de notas universitarias, planes de estudio y resúmenes interactivos.
-- **Portafolio Interactivo**: Un diseño moderno e intuitivo para presentar proyectos de tecnología.
-- **Animaciones fluidas**: Desarrollado con framer-motion para una experiencia de usuario enriquecida.
+- **Portafolio interactivo**: trayectoria, certificaciones, stack técnico y proyectos destacados.
+- **Calculadora universitaria**: promedio final según la fórmula de 7 universidades del Perú (UNICA, UNMSM, UNI, PUCP, UTP, Autónoma, UPSJB), con nota mínima necesaria para aprobar. Los datos se guardan en el navegador.
+- **Animaciones fluidas** con Motion, respetando `prefers-reduced-motion`.
 
 ## 🛠️ Tecnologías
 
@@ -26,8 +25,8 @@ Sigue estos pasos para ejecutar el proyecto en tu entorno local:
 
 1. **Clonar el repositorio**:
    ```bash
-   git clone <URL_DEL_REPOSITORIO>
-   cd portafolio-chente-ia
+   git clone https://github.com/ChenteIA/Portafolio-Vicente.git
+   cd Portafolio-Vicente
    ```
 
 2. **Instalar las dependencias**:

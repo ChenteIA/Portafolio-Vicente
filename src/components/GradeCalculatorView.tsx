@@ -284,6 +284,9 @@ export default function GradeCalculatorView() {
       }
     }
 
+    // Corrige el error de coma flotante (p. ej. 10.4999999 en vez de 10.5) antes de redondear
+    rawPF = Math.round(rawPF * 1e6) / 1e6;
+
     let roundedPF = rawPF;
     if (uniConf.rounding === "none") {
       roundedPF = Math.round(rawPF * 100) / 100;

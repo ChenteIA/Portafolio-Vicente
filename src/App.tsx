@@ -1,14 +1,4 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import React, { useState } from "react";
+import { useState } from "react";
 import Navbar from "./components/Navbar";
 import PortfolioView from "./components/PortfolioView";
 import GradeCalculatorView from "./components/GradeCalculatorView";

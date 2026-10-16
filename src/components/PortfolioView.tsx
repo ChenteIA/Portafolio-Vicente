@@ -7,12 +7,17 @@ const TypewriterText = ({ text, delay = 0, className = "" }: { text: string, del
   const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      setDisplayedText(text);
+      return;
+    }
+
+    let typingInterval: ReturnType<typeof setInterval> | undefined;
     let charIndex = 0;
 
-    const startTyping = () => {
+    const timeout = setTimeout(() => {
       setIsTyping(true);
-      const typingInterval = setInterval(() => {
+      typingInterval = setInterval(() => {
         if (charIndex < text.length) {
           setDisplayedText(text.slice(0, charIndex + 1));
           charIndex++;
@@ -21,18 +26,19 @@ const TypewriterText = ({ text, delay = 0, className = "" }: { text: string, del
           setIsTyping(false);
         }
       }, 50);
+    }, delay);
 
-      return () => clearInterval(typingInterval);
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(typingInterval);
     };
-
-    timeout = setTimeout(startTyping, delay);
-    return () => clearTimeout(timeout);
   }, [text, delay]);
 
   return (
-    <span className={className}>
-      {displayedText}
+    <span className={className} aria-label={text}>
+      <span aria-hidden="true">{displayedText}</span>
       <motion.span 
+        aria-hidden="true"
         animate={{ opacity: [1, 0, 1] }} 
         transition={{ repeat: Infinity, duration: 0.8 }}
         className={`inline-block w-[0.4em] h-[1em] bg-current align-middle ml-1 ${isTyping ? 'opacity-100' : 'opacity-0'}`}
@@ -95,7 +101,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
                 Hablemos
               </a>
               <a 
-                href="https://github.com" 
+                href="https://github.com/ChenteIA" 
                 target="_blank" 
                 rel="noreferrer"
                 className="bg-white/5 border border-white/10 hover:border-white/30 text-white font-mono font-bold py-3 px-8 rounded-xl transition-all uppercase text-sm tracking-widest backdrop-blur-sm"
@@ -152,9 +158,9 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 1, ease: "easeOut" }}
               referrerPolicy="no-referrer"
-              alt="Vicente Avatar" 
+              alt="Avatar de Vicente Celis Arias" 
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPa0KivywE2Y8yIt-zl2uLxLQZ3zhNjrg5oJLhKycqvdXGuJMZJjEtYuafTWHAg76Nq3fzLp7O6PG_IDnItwbDFTvOdfuKOc5vWDRMdLuAQtFXfYuDYDC8Sj4fcskycTOXswhcEXgjHiYi0KMyBTcfzqT2lBZCdc6IVfu93OrI8S2O_CvJxEvtB3XpSgcgM20NdnFRIc-5300cz3PLpeEMk6fUopO0OcVB8JeHcVEiFyCrYuQsb-ex9rEqrWttgUgNx22E5GcjKT7S" 
-              className="object-contain h-[90%] md:h-full z-10 relative drop-shadow-[0_0_35px_rgba(255,107,0,0.35)] hover:scale-103 transition-transform duration-500 cursor-pointer"
+              className="object-contain h-[90%] md:h-full z-10 relative drop-shadow-[0_0_35px_rgba(255,107,0,0.35)] hover:scale-103 transition-transform duration-500"
             />
           </div>
         </header>
@@ -370,7 +376,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
               <div className="text-3xl mb-4 group-hover:-translate-y-1 transition-transform relative z-10">🎓</div>
               <h3 className="text-xl font-bold text-[#dee2f0] mb-2 group-hover:text-[#ff6b00] transition-colors relative z-10">Calculadora Universitaria</h3>
               <p className="text-[#e2bfb0]/70 text-sm leading-relaxed mb-8 relative z-10">
-                Sistema inteligente para promedios de universidades del Perú con validación de reglas de sustitutorios.
+                Calcula tu promedio final según la fórmula de 7 universidades del Perú y te dice cuánto necesitas para aprobar.
               </p>
               <div className="font-mono text-xs font-bold text-[#14d1ff] flex items-center gap-2 relative z-10">
                 Abrir demo <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />

@@ -53,18 +53,22 @@ export default function Navbar({ currentTab, onChangeTab }: NavbarProps) {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden text-[#e2bfb0] hover:text-white p-1 rounded-lg cursor-pointer hover:bg-white/5 active:scale-95 transition-all"
             id="mobile_menu_toggle_btn"
+            aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
-          <div 
+          <button 
+            type="button"
+            aria-label="Ir al inicio"
             onClick={() => handleTabClick("portfolio", false)}
             className="font-display text-2xl font-bold text-[#ff6b00] tracking-tighter cursor-pointer flex items-center gap-2 hover:scale-102 transition-transform select-none"
             id="nav_logo"
           >
             <Sparkles className="w-6 h-6 text-[#14d1ff] animate-pulse" />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-[#ff6b00]">Chente.</span>
-          </div>
+          </button>
         </div>
 
         {/* Tab Navigation links (Desktop) */}
