@@ -1,23 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useRef, type CSSProperties } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { 
-  Calculator, 
-  Plus, 
-  Trash2, 
-  Sparkles, 
-  Info,
-  RotateCcw,
-  BookOpen,
-  AlertTriangle,
-  Award,
-  TrendingUp,
-  FileText,
-  ShieldCheck,
-  ChevronDown,
-  X,
-  GraduationCap,
-  Lightbulb
-} from "lucide-react";
+import { Calculator, Plus, Trash2, RotateCcw, BookOpen, Award, FileText, ChevronDown, Lightbulb } from "lucide-react";
 
 type UniKey = "UNICA" | "UNMSM" | "UNI" | "PUCP" | "UTP" | "AUTONOMA" | "UPSJB";
 
@@ -31,10 +14,9 @@ interface UniInfo {
   id: UniKey;
   name: string;
   short: string;
-  colorGrad: string;
   primaryHex: string;
   minApproval: number;
-  rounding: "half_up" | "none" | "half_up_int";
+  rounding: "half_up" | "none";
   components: UniComponent[];
   formulaDesc: string;
   sustitutorioRule: string;
@@ -46,7 +28,6 @@ const UNIVERSITIES: Record<UniKey, UniInfo> = {
     id: "UNICA",
     name: "Universidad Nac. San Luis Gonzaga",
     short: "UNICA",
-    colorGrad: "from-[#d4af37] to-[#e6c46a]",
     primaryHex: "#d4af37",
     minApproval: 11,
     rounding: "half_up",
@@ -64,7 +45,6 @@ const UNIVERSITIES: Record<UniKey, UniInfo> = {
     id: "UNMSM",
     name: "Universidad Nac. Mayor de San Marcos",
     short: "UNMSM",
-    colorGrad: "from-[#8b1d21] to-[#ff4d6d]",
     primaryHex: "#ff4d6d",
     minApproval: 11,
     rounding: "half_up",
@@ -82,7 +62,6 @@ const UNIVERSITIES: Record<UniKey, UniInfo> = {
     id: "UNI",
     name: "Universidad Nac. de Ingeniería",
     short: "UNI",
-    colorGrad: "from-[#cc0000] to-[#ff3333]",
     primaryHex: "#ff3333",
     minApproval: 10,
     rounding: "half_up",
@@ -99,7 +78,6 @@ const UNIVERSITIES: Record<UniKey, UniInfo> = {
     id: "PUCP",
     name: "Pontificia Univ. Católica del Perú",
     short: "PUCP",
-    colorGrad: "from-[#00477F] to-[#3b82f6]",
     primaryHex: "#3b82f6",
     minApproval: 11,
     rounding: "none",
@@ -116,10 +94,9 @@ const UNIVERSITIES: Record<UniKey, UniInfo> = {
     id: "UTP",
     name: "Universidad Tecnológica del Perú",
     short: "UTP",
-    colorGrad: "from-[#E60028] to-[#FF3355]",
     primaryHex: "#ff3355",
     minApproval: 12,
-    rounding: "half_up_int",
+    rounding: "half_up",
     components: [
       { id: "pc1", label: "Práctica 1", weight: 0.20 },
       { id: "pc2", label: "Práctica 2", weight: 0.20 },
@@ -134,7 +111,6 @@ const UNIVERSITIES: Record<UniKey, UniInfo> = {
     id: "AUTONOMA",
     name: "Universidad Autónoma del Perú",
     short: "Autónoma",
-    colorGrad: "from-[#f26522] to-[#ff985c]",
     primaryHex: "#f26522",
     minApproval: 11,
     rounding: "half_up",
@@ -151,7 +127,6 @@ const UNIVERSITIES: Record<UniKey, UniInfo> = {
     id: "UPSJB",
     name: "Univ. Privada San Juan Bautista",
     short: "UPSJB",
-    colorGrad: "from-[#008000] to-[#22c55e]",
     primaryHex: "#22c55e",
     minApproval: 11,
     rounding: "half_up",
@@ -173,99 +148,80 @@ interface Course {
   grades: Record<string, number | "">;
 }
 
+const STORAGE_KEY = "multi_uni_courses";
+const WHATSAPP_NUMBER = "51971114393";
+
+const makeCourse = (uni: UniInfo, id: string, name: string): Course => ({
+  id,
+  name,
+  attendance: 100,
+  grades: Object.fromEntries(uni.components.map(c => [c.id, ""])),
+});
+
+const loadCourses = (): Partial<Record<UniKey, Course[]>> => {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}") ?? {};
+  } catch {
+    return {};
+  }
+};
+
+const saveCourses = (data: Partial<Record<UniKey, Course[]>>) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch {
+    // ignore quota or security errors
+  }
+};
+
+// Elimina el ruido de coma flotante (p. ej. 10.4999999 en vez de 10.5) antes de redondear
+const snap = (x: number) => Math.round(x * 1e6) / 1e6;
+
 export default function GradeCalculatorView() {
   const [selectedUni, setSelectedUni] = useState<UniKey>("UNICA");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const uniConf = UNIVERSITIES[selectedUni];
 
   // Map courses per university
-  const [coursesByUni, setCoursesByUni] = useState<Record<UniKey, Course[]>>({} as any);
+  const [coursesByUni, setCoursesByUni] = useState(loadCourses);
 
-  // Initialize or load
+  // Persistir con debounce: el slider de asistencia dispara muchos onChange por segundo
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("multi_uni_courses");
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed) {
-          setCoursesByUni(parsed);
-          return;
-        }
-      }
-    } catch (e) {
-      // ignore security or parse errors
-    }
-  }, []);
+    const t = setTimeout(() => saveCourses(coursesByUni), 300);
+    return () => clearTimeout(t);
+  }, [coursesByUni]);
 
-  const saveToStorage = (updates: Record<UniKey, Course[]>) => {
-    setCoursesByUni(updates);
-    try {
-      localStorage.setItem("multi_uni_courses", JSON.stringify(updates));
-    } catch (e) {
-      // ignore quota or security errors
-    }
-  };
+  // Al salir de la calculadora se guarda lo pendiente del debounce
+  const latestCourses = useRef(coursesByUni);
+  latestCourses.current = coursesByUni;
+  useEffect(() => () => saveCourses(latestCourses.current), []);
 
-  const getActiveCourses = (): Course[] => {
-    if (coursesByUni[selectedUni]) return coursesByUni[selectedUni];
-    
-    // Create defaults based on uni components requirements
-    const activeGrades: Record<string, number | ""> = {};
-    uniConf.components.forEach(c => activeGrades[c.id] = "");
-    
-    return [
-      { id: "1", name: "Asignatura 1", attendance: 100, grades: { ...activeGrades } }
-    ];
-  };
+  const courses = coursesByUni[selectedUni] ?? [makeCourse(uniConf, "1", "Asignatura 1")];
 
-  const courses = getActiveCourses();
+  const setCourses = (next: Course[]) => setCoursesByUni({ ...coursesByUni, [selectedUni]: next });
+  const patchCourse = (id: string, patch: Partial<Course>) =>
+    setCourses(courses.map(c => c.id === id ? { ...c, ...patch } : c));
 
-  const handleAddCourse = () => {
-    const activeGrades: Record<string, number | ""> = {};
-    uniConf.components.forEach(c => activeGrades[c.id] = "");
-    
-    const newCourse: Course = {
-      id: Date.now().toString(),
-      name: `Nueva Asignatura ${courses.length + 1}`,
-      attendance: 100,
-      grades: activeGrades
-    };
-    saveToStorage({ ...coursesByUni, [selectedUni]: [...courses, newCourse] });
-  };
+  const handleAddCourse = () =>
+    setCourses([...courses, makeCourse(uniConf, Date.now().toString(), `Nueva Asignatura ${courses.length + 1}`)]);
 
   const handleDeleteCourse = (id: string) => {
     if (courses.length <= 1) return;
-    saveToStorage({ ...coursesByUni, [selectedUni]: courses.filter(c => c.id !== id) });
+    setCourses(courses.filter(c => c.id !== id));
   };
 
-  const handleReset = () => {
-    const fresh: Course[] = [];
-    const activeGrades: Record<string, number | ""> = {};
-    uniConf.components.forEach(c => activeGrades[c.id] = "");
-    fresh.push({ id: "1", name: "Asignatura 1", attendance: 100, grades: { ...activeGrades } });
-    
-    saveToStorage({ ...coursesByUni, [selectedUni]: fresh });
-  };
+  const handleReset = () => setCourses([makeCourse(uniConf, "1", "Asignatura 1")]);
 
-  const handleUpdateName = (id: string, name: string) => {
-    const updated = courses.map(c => c.id === id ? { ...c, name } : c);
-    saveToStorage({ ...coursesByUni, [selectedUni]: updated });
-  };
+  const handleUpdateName = (id: string, name: string) => patchCourse(id, { name });
 
-  const handleUpdateAttendance = (id: string, val: number) => {
-    const updated = courses.map(c => c.id === id ? { ...c, attendance: Math.max(0, Math.min(100, val)) } : c);
-    saveToStorage({ ...coursesByUni, [selectedUni]: updated });
-  };
+  const handleUpdateAttendance = (id: string, val: number) =>
+    patchCourse(id, { attendance: Math.max(0, Math.min(100, val)) });
 
   const handleUpdateGrade = (courseId: string, compId: string, val: string) => {
-    const updated = courses.map(c => {
-      if (c.id === courseId) {
-        const parsed = val === "" ? "" : Math.max(0, Math.min(20, Number(val)));
-        return { ...c, grades: { ...c.grades, [compId]: parsed } };
-      }
-      return c;
-    });
-    saveToStorage({ ...coursesByUni, [selectedUni]: updated });
+    const course = courses.find(c => c.id === courseId);
+    if (!course) return;
+    const parsed = val === "" ? "" : Math.max(0, Math.min(20, Number(val)));
+    patchCourse(courseId, { grades: { ...course.grades, [compId]: parsed } });
   };
 
   // Math core
@@ -284,13 +240,8 @@ export default function GradeCalculatorView() {
       }
     }
 
-    let roundedPF = rawPF;
-    if (uniConf.rounding === "none") {
-      roundedPF = Math.round(rawPF * 100) / 100;
-    } else {
-      // both half_up and half_up_int do >= 0.5 rules basically
-      roundedPF = Math.round(rawPF); 
-    }
+    rawPF = snap(rawPF);
+    const roundedPF = uniConf.rounding === "none" ? Math.round(rawPF * 100) / 100 : Math.round(rawPF);
 
     let status: "APROBADO" | "DESAPROBADO" | "RECUPERABLE" | "DPI" | "INCOMPLETO" = "INCOMPLETO";
     if (c.attendance < 70) {
@@ -312,7 +263,7 @@ export default function GradeCalculatorView() {
       if (neededPF <= 0) {
         requiredGrade = 0;
       } else {
-        const req = neededPF / missingWeight;
+        const req = snap(neededPF / missingWeight);
         if (req <= 20) {
           requiredGrade = Math.ceil(req * 10) / 10;
         }
@@ -330,7 +281,6 @@ export default function GradeCalculatorView() {
   const completeCourses = calculatedCourses.filter(cc => cc.metrics.isComplete || cc.metrics.status === "DPI");
   const passedCoursesCount = completeCourses.filter(cc => cc.metrics.status === "APROBADO").length;
   const failedCourses = completeCourses.filter(cc => ["DESAPROBADO", "RECUPERABLE", "DPI"].includes(cc.metrics.status));
-  const dpiCount = completeCourses.filter(cc => cc.metrics.status === "DPI").length;
 
   const averageGPA = completeCourses.length > 0 
     ? completeCourses.reduce((sum, item) => sum + item.metrics.roundedPF, 0) / completeCourses.length
@@ -354,7 +304,7 @@ export default function GradeCalculatorView() {
           <h1 className="text-3xl md:text-5xl font-display font-extrabold text-white tracking-tight flex flex-col sm:flex-row sm:items-center gap-3">
              Calculadora de Notas
           </h1>
-          <p className="text-sm text-[#e2bfb0]/70 max-w-3xl mt-2 leading-relaxed">
+          <p className="text-sm text-brand-muted/70 max-w-3xl mt-2 leading-relaxed">
             Selecciona tu universidad para aplicar automáticamente los umbrales de aprobación, fórmulas de ponderación y reglas de redondeo vigentes según los últimos reglamentos y sílabos institucionales.
           </p>
         </div>
@@ -364,12 +314,12 @@ export default function GradeCalculatorView() {
             {/* Custom Select Button */}
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-full bg-[#121622] hover:bg-[#1a2030] transition-colors border border-white/10 rounded-xl p-1 flex items-center justify-between text-left focus:outline-none focus:ring-2 focus:border-transparent select-none cursor-pointer"
-              style={{ "--tw-ring-color": uniConf.primaryHex } as React.CSSProperties}
+              className="w-full bg-brand-panel hover:bg-[#1a2030] transition-colors border border-white/10 rounded-xl p-1 flex items-center justify-between text-left focus:outline-none focus:ring-2 focus:border-transparent select-none cursor-pointer"
+              style={{ "--tw-ring-color": uniConf.primaryHex } as CSSProperties}
             >
               <div className="flex items-center gap-3 px-3 py-2 text-sm font-bold text-white">
                 {uniConf.logo ? (
-                  <img src={uniConf.logo} alt={uniConf.short} className="w-6 h-6 object-contain rounded-sm bg-white p-0.5" />
+                  <img src={uniConf.logo} alt={uniConf.short} width={24} height={24} decoding="async" className="w-6 h-6 object-contain rounded-sm bg-white p-0.5" />
                 ) : (
                   <div 
                     className="w-6 h-6 rounded-md flex items-center justify-center text-[10px] font-black shrink-0 transition-colors duration-500"
@@ -397,7 +347,7 @@ export default function GradeCalculatorView() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute top-full left-0 right-0 mt-2 bg-[#121622] border border-white/10 rounded-xl shadow-2xl overflow-y-auto z-50 flex flex-col py-1 max-h-[300px]"
+                  className="absolute top-full left-0 right-0 mt-2 bg-brand-panel border border-white/10 rounded-xl shadow-2xl overflow-y-auto z-50 flex flex-col py-1 max-h-[300px]"
                 >
                   {Object.values(UNIVERSITIES).map(u => (
                     <button
@@ -409,7 +359,7 @@ export default function GradeCalculatorView() {
                       className={`text-left flex items-center gap-3 px-4 py-3 hover:bg-[#1a2030] transition-colors cursor-pointer w-full border-b border-white/5 last:border-0 ${selectedUni === u.id ? 'bg-[#1a2030]' : ''}`}
                     >
                       {u.logo ? (
-                         <img src={u.logo} alt={u.short} className="w-6 h-6 object-contain rounded-sm bg-white p-0.5" />
+                         <img src={u.logo} alt={u.short} width={24} height={24} loading="lazy" decoding="async" className="w-6 h-6 object-contain rounded-sm bg-white p-0.5" />
                       ) : (
                         <div 
                           className="w-6 h-6 rounded-md flex items-center justify-center text-[10px] font-black shrink-0 transition-colors duration-500"
@@ -478,11 +428,11 @@ export default function GradeCalculatorView() {
                       metrics.status === "DPI" ? "bg-rose-500/15 text-rose-400 border-rose-400/20" :
                       metrics.status === "RECUPERABLE" ? "bg-amber-500/15 text-amber-400 border-amber-400/20" :
                       metrics.status === "DESAPROBADO" ? "bg-[#2c1a1f] text-rose-400 border-rose-500/10" :
-                      "bg-white/5 text-[#dee2f0]/60 border-white/5"
+                      "bg-white/5 text-brand-text/60 border-white/5"
                     }`}>
                       {metrics.status}
                     </span>
-                    <button onClick={() => handleDeleteCourse(course.id)} className="text-[#e2bfb0]/40 hover:text-rose-500 p-2 rounded-xl transition-all"><Trash2 className="w-4 h-4" /></button>
+                    <button onClick={() => handleDeleteCourse(course.id)} className="text-brand-muted/40 hover:text-rose-500 p-2 rounded-xl transition-all"><Trash2 className="w-4 h-4" /></button>
                   </div>
                 </div>
 
@@ -519,7 +469,7 @@ export default function GradeCalculatorView() {
                     </div>
 
                     <div className="border-t border-white/5 pt-3.5 text-center">
-                      <span className="text-[10px] uppercase font-bold text-[#e2bfb0]/55 tracking-wider block mb-1">Promedio Final</span>
+                      <span className="text-[10px] uppercase font-bold text-brand-muted/55 tracking-wider block mb-1">Promedio Final</span>
                       {metrics.isComplete && metrics.status !== "DPI" ? (
                         <div className="text-3xl font-display font-black text-white tracking-widest">{metrics.roundedPF}{uniConf.rounding === "none" && <span className="text-sm opacity-50">.xx</span>}</div>
                       ) : metrics.status === "DPI" ? (
@@ -529,7 +479,7 @@ export default function GradeCalculatorView() {
                           <div className="text-2xl font-display font-black text-emerald-400 tracking-widest">
                             {metrics.requiredGrade === 0 ? "Ya pasaste" : `${metrics.requiredGrade}`}
                           </div>
-                          {metrics.requiredGrade > 0 && <span className="text-[9px] text-[#e2bfb0]/55 font-bold uppercase tracking-wider block mt-1">Necesitas en notas faltantes</span>}
+                          {metrics.requiredGrade > 0 && <span className="text-[9px] text-brand-muted/55 font-bold uppercase tracking-wider block mt-1">Necesitas en notas faltantes</span>}
                         </div>
                       ) : metrics.status === "INCOMPLETO" && metrics.requiredGrade === null ? (
                         <div className="flex flex-col items-center justify-center">
@@ -565,14 +515,14 @@ export default function GradeCalculatorView() {
                       
                       <div className="mt-4 flex flex-wrap gap-2.5">
                         <a 
-                          href={`https://wa.me/51971114393?text=${encodeURIComponent(`Hola Chente, necesito ayuda para generar un plan de estudio para mi curso de ${course.name || 'la universidad'}.`)}`}
+                          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hola Chente, necesito ayuda para generar un plan de estudio para mi curso de ${course.name || 'la universidad'}.`)}`}
                           target="_blank" rel="noopener noreferrer"
                           className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366]/20 transition-colors border border-[#25D366]/20 font-medium text-xs hover:scale-105 active:scale-95 duration-200"
                         >
                           Generar Plan de Estudio
                         </a>
                         <a 
-                          href={`https://wa.me/51971114393?text=${encodeURIComponent(`Hola Chente, necesito ayuda con unas tareas del curso de ${course.name || 'la universidad'}.`)}`}
+                          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hola Chente, necesito ayuda con unas tareas del curso de ${course.name || 'la universidad'}.`)}`}
                           target="_blank" rel="noopener noreferrer"
                           className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors border border-blue-500/20 font-medium text-xs hover:scale-105 active:scale-95 duration-200"
                         >
@@ -611,16 +561,16 @@ export default function GradeCalculatorView() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-[#0a0f18] border border-white/5 rounded-2xl p-4 text-center">
-                <span className="text-[9px] text-[#e2bfb0]/55 font-bold uppercase block">Ponderado General</span>
+                <span className="text-[9px] text-brand-muted/55 font-bold uppercase block">Ponderado General</span>
                 <span className="text-3xl font-display font-black text-white tracking-widest block mt-1.5">{averageGPA > 0 ? averageGPA.toFixed(2) : "—"}</span>
               </div>
               <div className="bg-[#0a0f18] border border-white/5 rounded-2xl p-4 text-center">
-                 <span className="text-[9px] text-[#e2bfb0]/55 font-bold uppercase block">Aprobados (Mín {uniConf.minApproval})</span>
+                 <span className="text-[9px] text-brand-muted/55 font-bold uppercase block">Aprobados (Mín {uniConf.minApproval})</span>
                  <span className="text-3xl font-display font-black tracking-widest block mt-1.5 transition-colors duration-500" style={{ color: passedCoursesCount > 0 ? uniConf.primaryHex : "white" }}>{passedCoursesCount}/{courses.length}</span>
               </div>
             </div>
 
-            <div className="bg-white/5 rounded-2xl p-4 text-[11px] text-[#dee2f0]/80 leading-relaxed border border-white/5">
+            <div className="bg-white/5 rounded-2xl p-4 text-[11px] text-brand-text/80 leading-relaxed border border-white/5">
                <strong className="text-white">Diagnóstico Universitario:</strong>
                {failedCourses.length === 0 && completeCourses.length > 0 ? (
                  <span className="text-emerald-400 block mt-1">¡Excelente semestre! Ningún curso en riesgo hasta el momento.</span>
@@ -637,7 +587,7 @@ export default function GradeCalculatorView() {
               <FileText className="w-5 h-5 transition-colors duration-500" style={{ color: uniConf.primaryHex }} />
               <h3 className="text-xs font-extrabold text-white uppercase tracking-wider">Reglamento: {uniConf.short}</h3>
             </div>
-            <div className="space-y-3.5 text-xs text-[#e2bfb0]/80">
+            <div className="space-y-3.5 text-xs text-brand-muted/80">
               <div className="space-y-1">
                 <span className="font-bold text-white block">Fórmula Típica</span>
                 <p className="text-[11px] leading-relaxed font-mono transition-colors duration-500" style={{ color: uniConf.primaryHex }}>{uniConf.formulaDesc}</p>

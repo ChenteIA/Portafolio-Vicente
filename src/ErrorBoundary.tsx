@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
+import { Component, ErrorInfo, ReactNode } from "react";
 
 interface Props {
   children?: ReactNode;
@@ -26,10 +26,12 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div style={{ color: "red", padding: "20px" }}>
-          <h1>Sorry.. there was an error</h1>
-          <pre>{this.state.error?.toString()}</pre>
-          <pre>{this.state.error?.stack}</pre>
+        <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "16px", padding: "24px", textAlign: "center", background: "var(--color-brand-bg)", color: "var(--color-brand-text)", fontFamily: "system-ui, sans-serif" }}>
+          <h1 style={{ fontSize: "1.5rem", fontWeight: 700 }}>Algo salió mal</h1>
+          <p style={{ opacity: 0.7 }}>Ocurrió un error inesperado. Intenta recargar la página.</p>
+          <button onClick={() => window.location.reload()} style={{ background: "var(--color-brand-orange)", color: "var(--color-brand-bg)", border: "none", borderRadius: "12px", padding: "12px 24px", fontWeight: 700, cursor: "pointer" }}>
+            Recargar
+          </button>
         </div>
       );
     }
