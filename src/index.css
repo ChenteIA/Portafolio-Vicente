@@ -12,6 +12,14 @@
   --color-brand-surface: #1b2029;
   --color-brand-surface-high: #252a34;
   --color-brand-surface-highest: #30353f;
+  --color-brand-panel: #121622;
+  --color-brand-text: #dee2f0;
+  --color-brand-muted: #e2bfb0;
+  --color-brand-yellow: #ffda54;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 @keyframes marquee {
@@ -19,10 +27,8 @@
   100% { transform: translateX(-50%); }
 }
 
-@keyframes flicker {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
+@keyframes orbit {
+  to { transform: rotate(360deg); }
 }
 
 .animate-marquee {
@@ -38,16 +44,26 @@
   animation: fade-in 0.3s ease-out;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .animate-marquee,
-  .animate-flicker,
-  .animate-fade-in {
-    animation: none;
-  }
+.animate-orbit {
+  animation: orbit 45s linear infinite;
 }
 
-.animate-flicker {
-  animation: flicker 1.5s infinite;
+.animate-orbit-reverse {
+  animation: orbit 45s linear infinite reverse;
+}
+
+/* Una sola regla cubre todas las animaciones y transiciones CSS (incluidas las de Tailwind).
+   Las animaciones JS de motion se desactivan con <MotionConfig reducedMotion="user">. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Custom background animations & grid effects */
@@ -72,18 +88,7 @@
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
-.glow-border-orange {
-  border-color: rgba(255, 107, 0, 0.4);
-  box-shadow: 0 0 15px rgba(255, 107, 0, 0.2);
-}
 
-.speech-bubble {
-  position: relative;
-  background: rgba(255, 107, 0, 0.08);
-  border: 1px solid rgba(255, 107, 0, 0.35);
-  border-radius: 1.25rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
 
 /* Custom floating scrollbars */
 ::-webkit-scrollbar {
