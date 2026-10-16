@@ -2,9 +2,10 @@ import { useState, useEffect, type ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Award, Terminal, ChevronRight, Mail, Database } from "lucide-react";
 import type { Navigate } from "../App";
-import { NotebookLMIcon, PythonIcon, ClaudeIcon, QwenIcon, PowerBIIcon, WhatsAppIcon, InstagramIcon } from "./icons";
+import { NotebookLMIcon, PythonIcon, ClaudeIcon, QwenIcon, PowerBIIcon, WhatsAppIcon, InstagramIcon, LinkedInIcon } from "./icons";
 
 const WHATSAPP_URL = "https://wa.me/51971114393";
+const LINKEDIN_URL = "https://www.linkedin.com/in/vicente-celis-datascience";
 
 // Tags flotando en la órbita alrededor del avatar
 const FLOATING_TAGS: { name: string; icon: ReactNode }[] = [
@@ -168,7 +169,7 @@ interface PortfolioViewProps {
 
 export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
   return (
-    <div className="w-full animate-fade-in relative z-10">
+    <div className="w-full overflow-x-clip animate-fade-in relative z-10">
       <div className="max-w-5xl mx-auto px-6 md:px-10 pt-28 pb-32">
 
         {/* 1. HERO SECTION */}
@@ -197,7 +198,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 2.8, duration: 0.8 }}
-              className="flex items-center gap-4 mt-6"
+              className="flex flex-wrap items-center gap-4 mt-6"
             >
               <a
                 href="#contacto"
@@ -206,10 +207,19 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
                 Hablemos
               </a>
               <a
+                href={LINKEDIN_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="bg-white/5 border border-white/10 hover:border-[#0A66C2] text-white font-mono font-bold py-3 px-6 rounded-xl transition-all uppercase text-sm tracking-widest backdrop-blur-sm flex items-center gap-2"
+              >
+                <LinkedInIcon className="w-4 h-4 text-[#0A66C2]" />
+                LinkedIn
+              </a>
+              <a
                 href="https://github.com/ChenteIA"
                 target="_blank"
                 rel="noreferrer"
-                className="bg-white/5 border border-white/10 hover:border-white/30 text-white font-mono font-bold py-3 px-8 rounded-xl transition-all uppercase text-sm tracking-widest backdrop-blur-sm"
+                className="bg-white/5 border border-white/10 hover:border-white/30 text-white font-mono font-bold py-3 px-6 rounded-xl transition-all uppercase text-sm tracking-widest backdrop-blur-sm"
               >
                 GitHub
               </a>
@@ -402,13 +412,23 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
           <p className="text-lg text-brand-muted/80 mb-12 max-w-2xl">
             Ya sea optimizando datos complejos, generando automatizaciones eficientes o creando una identidad visual y programática profunda. Trabajemos juntos para materializar tu visión.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto relative z-20">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-4 w-full relative z-20">
             <a
               href="mailto:jesuscelisarias@gmail.com"
               className="bg-brand-orange hover:bg-[#ff8a33] text-brand-bg font-mono font-bold py-4 px-10 rounded-xl transition-all tracking-widest uppercase text-sm flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(255,107,0,0.3)] hover:shadow-[0_0_30px_rgba(255,107,0,0.5)] transform hover:-translate-y-0.5"
             >
               <Mail className="w-5 h-5" />
               <span>Correo</span>
+            </a>
+
+            <a
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="bg-[#0A66C2] hover:bg-[#1477d6] text-white font-mono font-bold py-4 px-10 rounded-xl transition-all tracking-widest uppercase text-sm flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(10,102,194,0.3)] hover:shadow-[0_0_30px_rgba(10,102,194,0.5)] transform hover:-translate-y-0.5"
+            >
+              <LinkedInIcon className="w-5 h-5" />
+              <span>LinkedIn</span>
             </a>
 
             <a
