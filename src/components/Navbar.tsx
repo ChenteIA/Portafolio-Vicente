@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, Menu, X, ArrowUpRight, ChevronDown } from "lucide-react";
+import { Menu, X, ArrowUpRight, ChevronDown } from "lucide-react";
 import type { Navigate, Tab } from "../App";
 
 interface NavbarProps {
@@ -57,11 +57,17 @@ export default function Navbar({ currentTab, onNavigate }: NavbarProps) {
             type="button"
             title="Ir al inicio"
             onClick={() => go("portfolio")}
-            className="font-display text-2xl font-bold text-brand-orange tracking-tighter cursor-pointer flex items-center gap-2 hover:scale-102 transition-transform select-none"
+            className="group flex items-center gap-3 cursor-pointer select-none"
             id="nav_logo"
           >
-            <Sparkles className="w-6 h-6 text-brand-cyan animate-pulse" />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-brand-orange">Chente.</span>
+            <span
+              aria-hidden="true"
+              className="w-9 h-9 rounded-lg border border-brand-orange/60 bg-brand-orange/10 flex items-center justify-center font-display text-sm font-extrabold text-brand-orange tracking-tight transition-colors group-hover:bg-brand-orange group-hover:text-brand-bg"
+            >
+              VC
+            </span>
+            <span className="hidden sm:inline font-display text-lg font-bold text-brand-text tracking-tight">Vicente Celis</span>
+            <span className="sm:hidden sr-only">Vicente Celis</span>
           </button>
         </div>
 
@@ -121,7 +127,7 @@ export default function Navbar({ currentTab, onNavigate }: NavbarProps) {
                 id={`mobile_nav_btn_${item.anchor ?? item.tab}`}
               >
                 <span>{item.label}</span>
-                {isActive(item) && <Sparkles className="w-3.5 h-3.5 text-brand-orange" />}
+                {isActive(item) && <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-brand-orange" />}
               </button>
 
               {item.subItems && (
