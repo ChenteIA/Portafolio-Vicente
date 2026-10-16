@@ -157,9 +157,10 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 1, ease: "easeOut" }}
-              referrerPolicy="no-referrer"
               alt="Avatar de Vicente Celis Arias" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPa0KivywE2Y8yIt-zl2uLxLQZ3zhNjrg5oJLhKycqvdXGuJMZJjEtYuafTWHAg76Nq3fzLp7O6PG_IDnItwbDFTvOdfuKOc5vWDRMdLuAQtFXfYuDYDC8Sj4fcskycTOXswhcEXgjHiYi0KMyBTcfzqT2lBZCdc6IVfu93OrI8S2O_CvJxEvtB3XpSgcgM20NdnFRIc-5300cz3PLpeEMk6fUopO0OcVB8JeHcVEiFyCrYuQsb-ex9rEqrWttgUgNx22E5GcjKT7S" 
+              src="/avatar.png"
+              width={285}
+              height={512} 
               className="object-contain h-[90%] md:h-full z-10 relative drop-shadow-[0_0_35px_rgba(255,107,0,0.35)] hover:scale-103 transition-transform duration-500"
             />
           </div>
