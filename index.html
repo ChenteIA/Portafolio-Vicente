@@ -59,7 +59,9 @@
     vicente: { name: "Vicente", color: "#ff6b00" },
     datos: { name: "Datos", color: "#22d3ee" },
     codigo: { name: "Código", color: "#facc15" },
-    diseno: { name: "Diseño", color: "#a78bfa" }
+    diseno: { name: "Diseño", color: "#a78bfa" },
+    claude: { name: "Claude Code", color: "#d97757", ai: true },
+    codex: { name: "Codex", color: "#e8e8e8", ai: true }
   };
   var css = document.createElement("style");
   css.textContent =
@@ -76,6 +78,23 @@
     ".cv-box i{position:absolute;width:8px;height:8px;background:#fff;border:2px solid;border-radius:2px}" +
     ".cv-box b{position:absolute;left:-2px;top:-21px;padding:1px 7px;border-radius:4px 4px 4px 0;font-size:10px;font-weight:700;color:#0f121c;white-space:nowrap}" +
     ".cv-hide{opacity:0!important}" +
+    ".cv-sel{position:absolute;border:1px solid #6cb8ff;background:rgba(120,190,255,.2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);transition:width .38s " + EASE + ",height .38s " + EASE + ",opacity .4s ease}" +
+    ".cv-sel b{position:absolute;left:-1px;top:-19px;padding:1px 7px;border-radius:4px 4px 4px 0;font-size:10px;font-weight:700;color:#0f121c;white-space:nowrap}" +
+    "@keyframes cvwipe{from{clip-path:inset(-4px 100% -4px -4px)}to{clip-path:inset(-4px -4px -4px -4px)}}" +
+    "@keyframes cvdown{from{clip-path:inset(-4px -4px 100% -4px)}to{clip-path:inset(-4px -4px -4px -4px)}}" +
+    "@keyframes cvrise{from{clip-path:inset(100% -40px -40px -40px);transform:translateY(14px)}to{clip-path:inset(-40px -40px -40px -40px);transform:none}}" +
+    ".cv-b-wipe{animation:cvwipe .6s cubic-bezier(.65,0,.35,1) both}.cv-b-down{animation:cvdown .7s cubic-bezier(.65,0,.35,1) both}.cv-b-rise{animation:cvrise .7s " + EASE + " both}" +
+    ".cv-cur .st{display:block;margin-top:2px;font-size:9px;font-weight:600;opacity:.75}" +
+    ".cv-wel{position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:#0f131d;transition:background .5s ease,opacity .5s ease;font-family:'JetBrains Mono',ui-monospace,monospace}" +
+    ".cv-wel svg{width:128px;height:128px;transform:scale(.6);opacity:0;transition:transform .55s " + EASE + ",opacity .35s ease;filter:drop-shadow(0 18px 40px rgba(255,107,0,.25))}" +
+    ".cv-wel.in svg{transform:scale(1);opacity:1}" +
+    ".cv-wel .bar{transform:translateY(-18px);transition:transform .35s " + EASE + " .15s}.cv-wel.in .bar{transform:none}" +
+    ".cv-wel .d{transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .25s " + EASE + "}.cv-wel.in .d{transform:scale(1)}" +
+    ".cv-wel .s{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .35s ease}.cv-wel.go .s{stroke-dashoffset:0}" +
+    ".cv-wel .u{animation:cvblink .7s step-end infinite}@keyframes cvblink{50%{opacity:0}}" +
+    ".cv-wel .t{color:#dee2f0;font-size:15px;min-height:1.3em;letter-spacing:.02em}.cv-wel .t b{color:#ff6b00;font-weight:500}" +
+    ".cv-wel .n{font-family:Montserrat,system-ui,sans-serif;font-weight:800;font-size:clamp(30px,7vw,54px);color:#dee2f0;letter-spacing:-.02em;opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s " + EASE + "}.cv-wel .n.on{opacity:1;transform:none}.cv-wel .n i{font-style:normal;color:#ff6b00}" +
+    ".cv-wel.out{background:transparent;pointer-events:none}.cv-wel.out .t,.cv-wel.out .n{opacity:0;transition:opacity .3s ease}" +
     ".cv-reveal{transition:opacity .4s ease!important}";
   document.head.appendChild(css);
 
@@ -89,18 +108,66 @@
   bar.className = "cv-bar";
   var dots = '<div class="dots">';
   for (var k0 in USERS) dots += '<div class="dot" style="background:' + USERS[k0].color + '">' + USERS[k0].name[0] + "</div>";
-  bar.innerHTML = dots + '</div><div class="live"></div><span>4 personas diseñando…</span>';
+  bar.innerHTML = dots + '</div><div class="live"></div><span>4 personas y 2 agentes de IA diseñando…</span>';
   layer.appendChild(bar);
   document.body.appendChild(layer);
 
+  // Bienvenida: logo de ventana de terminal + "welcome to my portfolio" + nombre
+  var logoDone = false;
+  var wel = document.createElement("div");
+  wel.className = "cv-wel";
+  wel.setAttribute("aria-hidden", "true");
+  wel.innerHTML =
+    '<svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#121622"/>' +
+    '<path class="bar" d="M0 14A14 14 0 0 1 14 0H50A14 14 0 0 1 64 14V18H0Z" fill="#252a34"/>' +
+    '<circle class="d" style="transition-delay:.3s" cx="10" cy="9.5" r="2.6" fill="#ff5f57"/><circle class="d" style="transition-delay:.38s" cx="18" cy="9.5" r="2.6" fill="#febc2e"/><circle class="d" style="transition-delay:.46s" cx="26" cy="9.5" r="2.6" fill="#28c840"/>' +
+    '<g fill="none" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path class="s" pathLength="1" d="M10 29L17 36L10 43" stroke="#ff6b00"/>' +
+    '<path class="s" pathLength="1" style="transition-delay:.12s" d="M21 31L26 42L31 31" stroke="#dee2f0"/>' +
+    '<path class="s" pathLength="1" style="transition-delay:.24s" d="M45.1 32A5.8 5.8 0 1 0 45.1 41" stroke="#dee2f0"/>' +
+    '<path class="u" d="M48 45H55" stroke="#ff6b00"/></g></svg>' +
+    '<div class="t"></div><div class="n">Vicente <i>Celis</i></div>';
+  document.body.appendChild(wel);
+  var welText = wel.querySelector(".t"), welName = wel.querySelector(".n");
+  var phrase = "Welcome to my portfolio";
+  var welTimers = [];
+  function wat(ms, fn) { welTimers.push(setTimeout(fn, ms)); }
+  requestAnimationFrame(function () { requestAnimationFrame(function () { wel.classList.add("in"); }); });
+  wat(500, function () { wel.classList.add("go"); });
+  for (var ci = 0; ci <= phrase.length; ci++) (function (n) {
+    wat(850 + n * 32, function () { welText.innerHTML = '<b>&gt;</b> ' + phrase.slice(0, n) + '<b>_</b>'; });
+  })(ci);
+  wat(850 + phrase.length * 32 + 120, function () { welName.classList.add("on"); });
+  // El logo vuela a su lugar en la barra de navegación y empieza el armado de la página
+  wat(2500, function () {
+    var target = document.querySelector("#nav_logo svg");
+    var svg = wel.querySelector("svg");
+    wel.classList.add("out");
+    if (target) {
+      var a = svg.getBoundingClientRect(), b = target.getBoundingClientRect();
+      svg.style.transition = "transform .6s " + EASE;
+      svg.style.transform = "translate(" + (b.left + b.width / 2 - (a.left + a.width / 2)) + "px," + (b.top + b.height / 2 - (a.top + a.height / 2)) + "px) scale(" + (b.width / a.width) + ")";
+    } else {
+      svg.style.opacity = "0";
+    }
+    endWelcome(650);
+  });
+  function endWelcome(delay) {
+    if (logoDone) return;
+    logoDone = true;
+    welTimers.forEach(clearTimeout);
+    setTimeout(function () { wel.remove(); }, delay);
+    begin();
+  }
+
   var W = window.innerWidth, H = window.innerHeight;
   var cursors = {};
-  var starts = { vicente: [-40, H * 0.35], datos: [W + 40, H * 0.9], codigo: [W * 0.3, H + 40], diseno: [W + 40, H * 0.15] };
-  var idle = { vicente: [W * 0.18, H * 0.32], datos: [W * 0.62, H * 0.62], codigo: [W * 0.3, H * 0.7], diseno: [W * 0.7, H * 0.28] };
+  var starts = { vicente: [-40, H * 0.35], datos: [W + 40, H * 0.9], codigo: [W * 0.3, H + 40], diseno: [W + 40, H * 0.15], claude: [-40, H * 0.8], codex: [W * 0.8, H + 40] };
+  var idle = { vicente: [W * 0.18, H * 0.32], datos: [W * 0.62, H * 0.62], codigo: [W * 0.3, H * 0.7], diseno: [W * 0.7, H * 0.28], claude: [W * 0.12, H * 0.6], codex: [W * 0.8, H * 0.75] };
   for (var k in USERS) {
     var c = document.createElement("div");
     c.className = "cv-cur";
-    c.innerHTML = '<svg width="18" height="20" viewBox="0 0 18 20"><path d="M1 1l15 7.5-6.5 1.8L6.8 18z" fill="' + USERS[k].color + '" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg><b style="background:' + USERS[k].color + '">' + USERS[k].name + "</b>";
+    c.innerHTML = '<svg width="18" height="20" viewBox="0 0 18 20"><path d="M1 1l15 7.5-6.5 1.8L6.8 18z" fill="' + USERS[k].color + '" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg><b style="background:' + USERS[k].color + '">' + USERS[k].name + (USERS[k].ai ? '<span class="st">agente de IA</span>' : "") + "</b>";
     c.style.transform = "translate(" + starts[k][0] + "px," + starts[k][1] + "px)";
     layer.appendChild(c);
     cursors[k] = c;
@@ -130,16 +197,18 @@
   function finish() {
     if (done) return;
     done = true;
+    welTimers.forEach(clearTimeout);
+    if (wel.parentNode) { wel.style.opacity = "0"; setTimeout(function () { wel.remove(); }, 450); }
     clearInterval(wander);
     timers.forEach(clearTimeout);
     hidden.forEach(show);
-    setTimeout(function () { hidden.forEach(function (e) { e.classList.remove("cv-reveal"); }); }, 600);
+    setTimeout(function () { hidden.forEach(function (e) { e.classList.remove("cv-reveal", "cv-b-wipe", "cv-b-down", "cv-b-rise"); }); }, 600);
     var i = 0;
     for (var k in cursors) { move(k, i % 2 ? W + 60 : -60, H * (0.2 + i * 0.2), 600); i++; }
     grid.style.opacity = "0";
     bar.style.opacity = "0";
     bar.style.transform = "translate(-50%,-14px)";
-    var boxes = layer.querySelectorAll(".cv-box");
+    var boxes = layer.querySelectorAll(".cv-box, .cv-sel");
     for (var j = 0; j < boxes.length; j++) boxes[j].style.opacity = "0";
     setTimeout(function () { layer.remove(); css.remove(); }, 650);
     window.removeEventListener("keydown", onKey);
@@ -150,58 +219,84 @@
   window.addEventListener("pointerdown", finish);
 
   // Selección tipo Canva: va a la esquina, arrastra el recuadro y el contenido aparece dentro
-  function select(k, el, t0, label, pad, reveal) {
+  // Selección tipo Windows: el cursor arrastra un recuadro celeste y dentro se construye el contenido
+  function build(e, mode) {
+    if (!e) return;
+    e.classList.add("cv-b-" + mode);
+    show(e);
+  }
+  function select(k, el, t0, label, pad, reveal, mode) {
     if (!el) return;
     reveal = reveal || [el];
     var u = USERS[k];
     at(t0, function () {
       var r = el.getBoundingClientRect();
-      if (!(r.width > 0 && r.top < H - 20 && r.bottom > 0)) { reveal.forEach(show); return; }
+      if (!(r.width > 0 && r.top < H - 20 && r.bottom > 0)) { reveal.forEach(function (e) { build(e, mode); }); return; }
       var x = Math.max(4, r.left - pad), y = Math.max(4, r.top - pad);
       var w = Math.min(W - x - 4, r.width + pad * 2), h = r.height + pad * 2;
-      move(k, x - 2, y - 2, 420);
+      move(k, x - 2, y - 2, 380);
       var box = document.createElement("div");
-      box.className = "cv-box";
-      box.style.cssText = "left:" + x + "px;top:" + y + "px;width:" + w + "px;height:" + h + "px;border-color:" + u.color;
-      var hs = [["left:-5px;top:-5px"], ["right:-5px;top:-5px"], ["left:-5px;bottom:-5px"], ["right:-5px;bottom:-5px"]];
-      var html = "";
-      for (var i = 0; i < hs.length; i++) html += '<i style="border-color:' + u.color + ";" + hs[i][0] + '"></i>';
-      box.innerHTML = html + '<b style="background:' + u.color + '">' + u.name + " · " + label + "</b>";
+      box.className = "cv-sel";
+      box.style.cssText = "left:" + x + "px;top:" + y + "px;width:0;height:0;opacity:0";
+      box.innerHTML = '<b style="background:' + u.color + '">' + u.name + " · " + label + "</b>";
       layer.insertBefore(box, bar);
-      at(430, function () { box.classList.add("on"); move(k, x + w - 6, y + h - 6, 380); });
-      at(800, function () { reveal.forEach(show); });
-      at(1400, function () { box.style.opacity = "0"; });
+      var tag = cursors[k].querySelector(".st");
+      at(400, function () {
+        box.style.opacity = "1";
+        box.style.width = w + "px";
+        box.style.height = h + "px";
+        move(k, x + w - 6, y + h - 6, 380);
+      });
+      at(800, function () {
+        if (tag) tag.textContent = mode === "down" ? "escribiendo…" : "construyendo…";
+        reveal.forEach(function (e) { build(e, mode); });
+        // el cursor acompaña la construcción
+        if (mode === "down") move(k, x + w * 0.6, y + h + 4, 650);
+        else if (mode === "wipe") move(k, x + w + 6, y + h * 0.5, 600);
+        else move(k, x + w * 0.5, y - 10, 650);
+      });
+      at(1500, function () {
+        box.style.opacity = "0";
+        if (tag) tag.textContent = "agente de IA";
+      });
     });
   }
-
-  // Fase 2: cuando la app pinta el inicio
-  function begin() {
-    if (started || done) return true;
+  // Oculta el inicio apenas React lo pinta (aunque siga la bienvenida), sin transición, para que no se vea un "fantasma"
+  var els = null;
+  function prep() {
+    if (els || done) return !!els;
     var header = document.querySelector("#root header");
     var h1 = header && header.querySelector("h1");
     if (!h1) return false;
-    started = true;
-    clearInterval(wander);
-    var subtitle = h1.nextElementSibling;
-    var para = header.querySelector("p");
     var cta = header.querySelector('a[href="#contacto"]');
-    var buttons = cta && cta.parentElement;
     var avatar = header.querySelector("img");
-    var column = avatar && avatar.parentElement;
-    hidden = [h1.previousElementSibling, h1, subtitle, para, buttons, column].filter(Boolean);
-    hidden.forEach(function (e) { e.classList.add("cv-reveal", "cv-hide"); });
-    select("diseno", avatar, 60, "Imagen", 4, [column]);
-    select("vicente", h1, 200, "Título", 10, [h1.previousElementSibling, h1]);
-    select("codigo", subtitle, 1000, "Subtítulo", 8);
-    select("datos", para, 1700, "Texto", 10);
-    select("vicente", buttons, 2300, "Botones", 8);
-    at(3350, finish);
+    els = { h1: h1, label: h1.previousElementSibling, subtitle: h1.nextElementSibling, para: header.querySelector("p"),
+            buttons: cta && cta.parentElement, avatar: avatar, column: avatar && avatar.parentElement };
+    hidden = [els.label, els.h1, els.subtitle, els.para, els.buttons, els.column].filter(Boolean);
+    hidden.forEach(function (e) { e.classList.add("cv-hide"); });
+    requestAnimationFrame(function () { requestAnimationFrame(function () { hidden.forEach(function (e) { e.classList.add("cv-reveal"); }); }); });
     return true;
   }
-  var mo = new MutationObserver(function () { if (begin()) mo.disconnect(); });
+  function begin() {
+    if (started || done) return true;
+    if (!logoDone) return false;
+    if (!prep()) return false;
+    started = true;
+    clearInterval(wander);
+    var h1 = els.h1, avatar = els.avatar, column = els.column, subtitle = els.subtitle, para = els.para, buttons = els.buttons;
+    select("diseno", avatar, 40, "Imagen", 4, [column], "rise");
+    select("datos", h1.previousElementSibling, 150, "Estado", 6, null, "wipe");
+    select("vicente", h1, 320, "Título", 10, null, "wipe");
+    select("codigo", subtitle, 1000, "Subtítulo", 8, null, "wipe");
+    select("claude", para, 1550, "Texto", 10, null, "down");
+    select("codex", buttons, 2150, "Botones", 8, null, "wipe");
+    at(3450, finish);
+    return true;
+  }
+  var mo = new MutationObserver(function () { prep(); if (begin()) mo.disconnect(); });
   mo.observe(document.getElementById("root") || document.body, { childList: true, subtree: true });
   // Seguridad: si la app no carga, no dejar la capa encima
-  setTimeout(function () { if (!started) finish(); }, 10000);
+  setTimeout(function () { if (!started) finish(); }, 13000);
 })();
     </script>
     <script type="module" src="/src/main.tsx"></script>
