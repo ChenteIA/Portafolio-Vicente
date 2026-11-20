@@ -1,6 +1,6 @@
 import { useState, useEffect, type ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Award, Terminal, ChevronRight, Mail, Database, FileSpreadsheet, Wrench } from "lucide-react";
+import { Award, Terminal, ChevronRight, Mail, Database, FileSpreadsheet, Wrench, Download, ArrowUpRight } from "lucide-react";
 import type { Navigate } from "../App";
 import { PythonIcon, ClaudeIcon, PowerBIIcon, WhatsAppIcon, InstagramIcon } from "./icons";
 
@@ -50,7 +50,7 @@ const TIMELINE = [
     date: "Marzo 2026",
     dot: "bg-brand-cyan shadow-[0_0_10px_var(--color-brand-cyan)]",
     dateClass: "text-brand-yellow",
-    text: "Planificación, estructuración y dictado del ciclo para estudiantes cachimbos. Colaboración directa con la plana docente universitaria en la elaboración de materiales didácticos, fusionando pedagogía con ciencias exactas.",
+    text: "Planifiqué y dicté el ciclo introductorio para estudiantes de primer año, y elaboré materiales didácticos junto con los docentes de la universidad.",
   },
   {
     title: "Prácticas Preprofesionales · Área de Informática",
@@ -135,9 +135,14 @@ const PROJECTS = [
   },
 ];
 
-const UPCOMING_DEMOS = [
-  { emoji: "🤖", title: "Asistente IA (WIP)", text: "Integración con modelos fundacionales para tutoría en educación superior." },
-  { emoji: "📊", title: "Visor Financiero", text: "Herramienta de análisis exploratorio montada en la web con datasets públicos." },
+const EXTRA_DEMOS = [
+  {
+    emoji: "🔍",
+    title: "LinkedIn Optimizer",
+    text: "Skill de código abierto que audita un perfil de LinkedIn con tres revisores (headhunter, copywriter y estratega) y propone mejoras concretas.",
+    href: "https://github.com/ChenteIA/linkedin-optimizer-skill",
+    cta: "Ver en GitHub",
+  },
 ];
 
 const TypewriterText = ({ text, delay = 0, className = "" }: { text: string, delay?: number, className?: string }) => {
@@ -236,7 +241,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 2.8, duration: 0.8 }}
-              className="flex items-center gap-4 mt-6"
+              className="flex flex-wrap items-center gap-3 mt-6"
             >
               <a
                 href="#contacto"
@@ -245,10 +250,17 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
                 Hablemos
               </a>
               <a
+                href="/CV_Vicente_Celis_Arias.pdf"
+                download
+                className="bg-white/5 border border-white/10 hover:border-brand-cyan/50 text-white font-mono font-bold py-3 px-6 rounded-xl transition-all uppercase text-sm tracking-widest backdrop-blur-sm flex items-center gap-2"
+              >
+                <Download className="w-4 h-4" aria-hidden="true" /> CV
+              </a>
+              <a
                 href="https://github.com/ChenteIA"
                 target="_blank"
                 rel="noreferrer"
-                className="bg-white/5 border border-white/10 hover:border-white/30 text-white font-mono font-bold py-3 px-8 rounded-xl transition-all uppercase text-sm tracking-widest backdrop-blur-sm"
+                className="bg-white/5 border border-white/10 hover:border-white/30 text-white font-mono font-bold py-3 px-6 rounded-xl transition-all uppercase text-sm tracking-widest backdrop-blur-sm"
               >
                 GitHub
               </a>
@@ -405,7 +417,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
         <section id="demos" className="mb-24 scroll-mt-28">
           <SectionHeader n="03" title="Demos en vivo" />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <button
               onClick={() => onNavigate("calculator")}
               className="text-left bg-brand-surface/80 border border-white/10 p-6 rounded-2xl hover:border-brand-orange/50 transition-all group shadow-xl backdrop-blur-md relative overflow-hidden"
@@ -421,15 +433,22 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
               </div>
             </button>
 
-            {UPCOMING_DEMOS.map((demo) => (
-              <div key={demo.title} className="bg-brand-surface/40 border border-white/5 p-6 rounded-2xl relative overflow-hidden">
-                <div className="text-3xl mb-4 opacity-40 grayscale" aria-hidden="true">{demo.emoji}</div>
-                <h3 className="text-xl font-bold text-white/60 mb-2">{demo.title}</h3>
-                <p className="text-white/55 text-sm leading-relaxed mb-8">{demo.text}</p>
-                <div className="font-mono text-xs text-white/50 uppercase tracking-widest font-bold">
-                  Próximamente...
+            {EXTRA_DEMOS.map((demo) => (
+              <a
+                key={demo.title}
+                href={demo.href}
+                target="_blank"
+                rel="noreferrer"
+                className="text-left bg-brand-surface/80 border border-white/10 p-6 rounded-2xl hover:border-brand-cyan/50 transition-all group shadow-xl backdrop-blur-md relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-brand-cyan/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="text-3xl mb-4 group-hover:-translate-y-1 transition-transform relative z-10" aria-hidden="true">{demo.emoji}</div>
+                <h3 className="text-xl font-bold text-brand-text mb-2 group-hover:text-brand-cyan transition-colors relative z-10">{demo.title}</h3>
+                <p className="text-brand-muted/70 text-sm leading-relaxed mb-8 relative z-10">{demo.text}</p>
+                <div className="font-mono text-xs font-bold text-brand-cyan flex items-center gap-2 relative z-10">
+                  {demo.cta} <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </section>
@@ -437,9 +456,9 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
         {/* 5. CONTACTO Y DESPEDIDA */}
         <section id="contacto" className="py-16 text-center flex flex-col items-center scroll-mt-28">
           <span className="font-mono text-brand-orange font-bold text-xl mb-4">04.</span>
-          <h2 className="text-4xl md:text-6xl font-bold text-brand-text mb-6 tracking-tight">Impulsemos tu <br className="hidden md:block"/> próximo proyecto</h2>
+          <h2 className="text-4xl md:text-6xl font-bold text-brand-text mb-6 tracking-tight">¿Trabajamos <br className="hidden md:block"/> juntos?</h2>
           <p className="text-lg text-brand-muted/80 mb-12 max-w-2xl">
-            Ya sea ordenando y analizando datos, dando soporte informático, automatizando tareas repetitivas o creando la web de tu negocio. Conversemos sobre lo que necesitas.
+            Si buscas a alguien para tu equipo o necesitas ordenar datos, soporte informático, automatizar tareas o una web para tu negocio, escríbeme. Respondo por correo o WhatsApp.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto relative z-20">
             <a
