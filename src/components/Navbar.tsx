@@ -18,6 +18,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Inicio", tab: "portfolio" },
   { label: "Sobre mí", tab: "portfolio", anchor: "sobremi" },
   { label: "Proyectos", tab: "portfolio", anchor: "proyectos" },
+  { label: "Terminal", tab: "portfolio", anchor: "terminal" },
   { label: "Demos", tab: "portfolio", anchor: "demos", subItems: [{ label: "Calculadora", tab: "calculator" }] },
   { label: "Contacto", tab: "portfolio", anchor: "contacto" },
 ];
