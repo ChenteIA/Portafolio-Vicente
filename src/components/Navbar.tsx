@@ -1,3 +1,4 @@
+import LogoMark from "./LogoMark";
 import { useState } from "react";
 import { Menu, X, ArrowUpRight, ChevronDown } from "lucide-react";
 import type { Navigate, Tab } from "../App";
@@ -17,6 +18,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { label: "Inicio", tab: "portfolio" },
   { label: "Sobre mí", tab: "portfolio", anchor: "sobremi" },
+  { label: "Habilidades", tab: "portfolio", anchor: "habilidades" },
   { label: "Proyectos", tab: "portfolio", anchor: "proyectos" },
   { label: "Terminal", tab: "portfolio", anchor: "terminal" },
   { label: "Demos", tab: "portfolio", anchor: "demos", subItems: [{ label: "Calculadora", tab: "calculator" }] },
@@ -61,12 +63,7 @@ export default function Navbar({ currentTab, onNavigate }: NavbarProps) {
             className="group flex items-center gap-3 cursor-pointer select-none"
             id="nav_logo"
           >
-            <span
-              aria-hidden="true"
-              className="w-9 h-9 rounded-lg border border-brand-orange/60 bg-brand-orange/10 flex items-center justify-center font-display text-sm font-extrabold text-brand-orange tracking-tight transition-colors group-hover:bg-brand-orange group-hover:text-brand-bg"
-            >
-              VC
-            </span>
+            <LogoMark className="w-9 h-9 transition-transform duration-200 group-hover:-translate-y-0.5" />
             <span className="hidden sm:inline font-display text-lg font-bold text-brand-text tracking-tight">Vicente Celis</span>
             <span className="sm:hidden sr-only">Vicente Celis</span>
           </button>

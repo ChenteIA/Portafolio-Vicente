@@ -2,6 +2,7 @@ import { useState, useEffect, type ReactNode } from "react";
 import { Award, Terminal, ChevronRight, Mail, Database, FileSpreadsheet, Wrench, Download, ArrowUpRight } from "lucide-react";
 import type { Navigate } from "../App";
 import TerminalWindow from "./Terminal";
+import SkillsKeyboard from "./SkillsKeyboard";
 import { PythonIcon, ClaudeIcon, PowerBIIcon, WhatsAppIcon, InstagramIcon } from "./icons";
 
 const WHATSAPP_URL = "https://wa.me/51971114393";
@@ -354,30 +355,16 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
           </div>
         </section>
 
-        {/* SKILLS CAROUSEL (decorativo: repite el Stack Técnico) */}
-        <div aria-hidden="true" className="w-full overflow-hidden flex items-center bg-brand-surface/30 border-y border-white/5 py-8 mb-24 backdrop-blur-sm relative">
-          <div className="absolute inset-y-0 left-0 w-16 md:w-24 bg-gradient-to-r from-brand-bg to-transparent z-10 pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-16 md:w-24 bg-gradient-to-l from-brand-bg to-transparent z-10 pointer-events-none" />
-
-          <div className="flex animate-marquee whitespace-nowrap w-max">
-            {/* Dos copias idénticas para que el loop sea continuo */}
-            {[0, 1].map((copy) => (
-              <div key={copy} className="flex items-center text-3xl md:text-5xl font-display font-black text-white/10 uppercase tracking-widest gap-8 px-4 md:px-8 shrink-0">
-                {SKILLS.map((skill) => (
-                  <span key={skill.name} className="contents">
-                    <span className="hover:text-white/30 transition-colors">{skill.name}</span>
-                    <span className={skill.dot}>•</span>
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* 2. HABILIDADES: teclado 3D */}
+        <section id="habilidades" className="mb-24 scroll-mt-28 relative">
+          <SectionHeader n="02" title="Habilidades" />
+          <SkillsKeyboard />
+        </section>
 
         {/* 3. PROYECTOS */}
         <section id="proyectos" className="mb-24 scroll-mt-28 relative">
           <div aria-hidden="true" className="pointer-events-none absolute -right-40 top-1/3 w-[460px] h-[460px] rounded-full bg-brand-orange/[0.07] blur-[110px]" />
-          <SectionHeader n="02" title="Proyectos Destacados" />
+          <SectionHeader n="03" title="Proyectos Destacados" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {PROJECTS.map((project) => (
@@ -408,7 +395,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
 
         {/* 4. DEMOS EN VIVO */}
         <section id="terminal" className="mb-24 scroll-mt-28 relative">
-          <SectionHeader n="03" title="Pregúntale a mi terminal" />
+          <SectionHeader n="04" title="Pregúntale a mi terminal" />
           <div aria-hidden="true" className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-24 w-[520px] max-w-full h-[300px] rounded-full bg-brand-orange/[0.08] blur-[100px]" />
           <div className="relative max-w-3xl">
             <TerminalWindow />
@@ -416,7 +403,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
         </section>
 
         <section id="demos" className="mb-24 scroll-mt-28">
-          <SectionHeader n="04" title="Demos en vivo" />
+          <SectionHeader n="05" title="Demos en vivo" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <button
@@ -457,7 +444,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
         {/* 5. CONTACTO Y DESPEDIDA */}
         <section id="contacto" className="py-16 text-center flex flex-col items-center scroll-mt-28 relative">
           <div aria-hidden="true" className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 w-[600px] max-w-full h-[360px] rounded-full bg-brand-orange/[0.08] blur-[110px]" />
-          <span className="font-mono text-brand-orange font-bold text-xl mb-4 relative">05.</span>
+          <span className="font-mono text-brand-orange font-bold text-xl mb-4 relative">06.</span>
           <h2 className="text-4xl md:text-6xl font-bold text-brand-text mb-6 tracking-tight">¿Trabajamos <br className="hidden md:block"/> juntos?</h2>
           <p className="text-lg text-brand-muted/80 mb-12 max-w-2xl">
             Si buscas a alguien para tu equipo o necesitas ordenar datos, soporte informático, automatizar tareas o una web para tu negocio, escríbeme. Respondo por correo o WhatsApp.

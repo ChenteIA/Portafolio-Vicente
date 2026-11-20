@@ -1,5 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#0f131d"/>
-  <rect x="3" y="3" width="58" height="58" rx="11" fill="none" stroke="#ff6b00" stroke-width="3"/>
-  <text x="32" y="42" text-anchor="middle" font-family="Montserrat, Arial, sans-serif" font-size="26" font-weight="800" fill="#ff6b00">VC</text>
+  <rect width="64" height="64" rx="14" fill="#121622"/>
+  <path d="M0 14A14 14 0 0 1 14 0H50A14 14 0 0 1 64 14V18H0Z" fill="#252a34"/>
+  <circle cx="10" cy="9.5" r="2.6" fill="#ff5f57"/><circle cx="18" cy="9.5" r="2.6" fill="#febc2e"/><circle cx="26" cy="9.5" r="2.6" fill="#28c840"/>
+  <g fill="none" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 29L17 36L10 43" stroke="#ff6b00"/>
+    <path d="M21 31L26 42L31 31" stroke="#dee2f0"/>
+    <path d="M45.1 32A5.8 5.8 0 1 0 45.1 41" stroke="#dee2f0"/>
+    <path d="M48 45H55" stroke="#ff6b00"/>
+  </g>
 </svg>
