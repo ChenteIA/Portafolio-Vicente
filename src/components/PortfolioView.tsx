@@ -105,9 +105,10 @@ const PROJECTS = [
     accent: { bar: "from-brand-yellow", title: "group-hover:text-brand-yellow" },
     problem: "Pequeños negocios de Mala y Cañete sin presencia digital.",
     solution: "Diseño, desarrollo y despliegue de sitios web rápidos y adaptados a celular.",
-    result: "Este portafolio y una calculadora universitaria publicados y en uso.",
-    stack: ["React", "TypeScript", "Vercel"],
-    mockup: { laptop: "/mockups/portafolio_laptop.webp", phone: "/mockups/portafolio_cel.webp", alt: "Este portafolio visto en laptop y en celular" },
+    result: "Web de la empresa publicada en chentesolutions.com, con 8 webs de ejemplo para distintos rubros (barbería, dentista, hospedaje, pet shop y más).",
+    stack: ["HTML", "CSS", "JavaScript", "Vercel"],
+    mockup: { laptop: "/mockups/chentesolutions_laptop.webp", phone: "/mockups/chentesolutions_cel.webp", alt: "La web de Chente Solutions vista en laptop y en celular" },
+    href: "https://chentesolutions.com",
   },
   {
     tag: "Automatización",
@@ -357,6 +358,11 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
                     </span>
                   ))}
                 </div>
+                {"href" in project && project.href && (
+                  <a href={project.href} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 font-mono text-xs font-bold text-brand-cyan hover:text-brand-orange transition-colors w-fit">
+                    Ver chentesolutions.com <ChevronRight className="w-3 h-3" aria-hidden="true" />
+                  </a>
+                )}
               </article>
             ))}
           </div>
