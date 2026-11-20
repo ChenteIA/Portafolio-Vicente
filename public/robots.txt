@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://portafolio-vicente-blush.vercel.app/sitemap.xml
+Sitemap: https://vicente.chentesolutions.com/sitemap.xml
