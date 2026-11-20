@@ -126,71 +126,68 @@ export default function SkillsKeyboard() {
         </div>
       </div>
 
-      {/* Teclado isométrico: maqueta de keycaps mecánicos sobre base negra mate */}
-      <div className="relative w-full flex justify-center py-4 sm:py-6 overflow-x-clip">
-        {/* luz de estudio detrás del teclado */}
+      {/* Teclado 3D real (X, Y, Z): keycaps con caras laterales inclinadas sobre una bandeja negra con grosor */}
+      <div className="relative w-full flex justify-center py-10 sm:py-14 overflow-x-clip">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_45%,rgba(255,255,255,0.07),transparent_60%)]" />
-        <div className="translate-x-5 scale-[0.94] sm:translate-x-0 sm:scale-100">
-        <div
-          role="group"
-          aria-label="Teclado de habilidades"
-          className="relative [transform:rotateX(52deg)_rotateZ(-38deg)] -my-10 sm:-my-14 rounded-[22px] p-3.5 sm:p-5"
-          style={{
-            background: "linear-gradient(145deg, #23252c 0%, #121318 55%, #0b0c0f 100%)",
-            boxShadow: [
-              "inset 1.5px 1.5px 0 rgba(255,255,255,0.09)",
-              "inset -2px -2px 0 rgba(0,0,0,0.65)",
-              ...Array.from({ length: 12 }, (_, d) => `${d + 1}px ${d + 1}px 0 ${d < 2 ? "#17181d" : "#08090b"}`),
-              "30px 40px 60px rgba(0,0,0,0.75)",
-            ].join(", "),
-          }}
-        >
-          <div className="flex flex-col gap-1.5 sm:gap-3">
-            {Array.from({ length: Math.ceil(SKILLS.length / 6) }, (_, row) => (
-              <div key={row} className="flex gap-1.5 sm:gap-3" style={{ marginLeft: `${[0, 0.35, 0.7, 0.2, 0.55, 0.9][row % 6]}rem` }}>
-                {SKILLS.slice(row * 6, row * 6 + 6).map((k, j) => {
-                  const i = row * 6 + j;
-                  const down = pressed === i;
-                  const depth = down ? 2 : 7;
-                  const side = shade(k.color, -0.5);
-                  const skirt = Array.from({ length: depth }, (_, d) => `${d + 1}px ${d + 1}px 0 ${d < 2 ? shade(k.color, -0.35) : side}`).join(", ");
-                  return (
-                    <button
-                      key={k.name}
-                      type="button"
-                      onClick={() => press(i)}
-                      onFocus={() => setActive(i)}
-                      aria-label={k.name}
-                      aria-pressed={active === i}
-                      className="relative w-9 h-9 sm:w-14 sm:h-14 rounded-[9px] sm:rounded-[11px] p-[3px] sm:p-[5px] transition-[transform,box-shadow] duration-150 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-                      style={{
-                        // cuerpo del keycap: más claro arriba-izquierda (luz de estudio), más oscuro en los lados
-                        background: `linear-gradient(140deg, ${shade(k.color, 0.28)} 0%, ${k.color} 45%, ${shade(k.color, -0.22)} 100%)`,
-                        color: isLight(k.color) ? "#141414" : "#fff",
-                        boxShadow: `${skirt}, ${depth + 4}px ${depth + 6}px ${depth + 6}px rgba(0,0,0,0.55), inset 1px 1px 0 rgba(255,255,255,0.35)`,
-                        transform: down ? "translate(5px, 5px)" : active === i ? "translate(2px, 2px)" : "none",
-                      }}
-                    >
-                      {/* superficie superior cóncava con reflejo suave */}
-                      <span
-                        className="absolute inset-[3px] sm:inset-[5px] rounded-[7px] sm:rounded-[8px] grid place-items-center overflow-hidden"
+        <div className="translate-x-3 sm:translate-x-0 [--k:31px] sm:[--k:54px]">
+          <div
+            role="group"
+            aria-label="Teclado de habilidades"
+            className="kb3d-base relative rounded-[20px] p-3 sm:p-4 -my-12 sm:-my-16"
+          >
+            {/* grosor de la base: cara frontal y lateral */}
+            <span aria-hidden="true" className="kb3d-edge-front" />
+            <span aria-hidden="true" className="kb3d-edge-side" />
+            {/* bandeja hundida con borde */}
+            <div className="kb3d-tray rounded-[14px] p-2.5 sm:p-3.5 flex flex-col gap-2 sm:gap-3">
+              {Array.from({ length: Math.ceil(SKILLS.length / 6) }, (_, row) => (
+                <div key={row} className="kb3d-row flex gap-2 sm:gap-3" style={{ marginLeft: `calc(var(--k) * ${[0, 0.18, 0.36, 0.1, 0.28, 0.46][row % 6]})` }}>
+                  {SKILLS.slice(row * 6, row * 6 + 6).map((k, j) => {
+                    const i = row * 6 + j;
+                    const down = pressed === i;
+                    const light = isLight(k.color);
+                    return (
+                      <button
+                        key={k.name}
+                        type="button"
+                        onClick={() => press(i)}
+                        onFocus={() => setActive(i)}
+                        aria-label={k.name}
+                        aria-pressed={active === i}
+                        className="kb3d-key focus-visible:outline-none group"
                         style={{
-                          background: `radial-gradient(ellipse 70% 60% at 50% 55%, ${shade(k.color, -0.1)} 0%, ${k.color} 62%, ${shade(k.color, 0.16)} 100%)`,
-                          boxShadow: "inset 0 1px 2px rgba(255,255,255,0.25), inset 0 -1px 2px rgba(0,0,0,0.25)",
+                          transform: down ? "translateZ(calc(var(--k) * -0.16))" : active === i ? "translateZ(calc(var(--k) * -0.05))" : "translateZ(1px)",
                         }}
                       >
-                        <span aria-hidden="true" className="absolute -top-1/2 -left-1/4 w-[120%] h-full rotate-[-20deg] bg-gradient-to-b from-white/25 to-transparent" />
-                        <span className="relative w-full h-full grid place-items-center">
-                          <Icon icon={k.icon} />
+                        {/* 4 caras laterales inclinadas, cada una con su luz */}
+                        {[0, 1, 2, 3].map((side) => (
+                          <span key={side} aria-hidden="true" className="kb3d-rot" style={{ transform: `rotateZ(${side * 90}deg)` }}>
+                            <span
+                              className="kb3d-side"
+                              style={{ background: `linear-gradient(to bottom, ${shade(k.color, [-0.18, -0.34, 0.06, -0.08][side])}, ${shade(k.color, [-0.38, -0.52, -0.12, -0.28][side])})` }}
+                            />
+                          </span>
+                        ))}
+                        {/* cara superior cóncava, elevada en Z */}
+                        <span
+                          className="kb3d-top grid place-items-center overflow-hidden group-focus-visible:ring-2 group-focus-visible:ring-white"
+                          style={{
+                            background: `radial-gradient(ellipse 75% 65% at 50% 55%, ${shade(k.color, -0.08)} 0%, ${k.color} 60%, ${shade(k.color, 0.2)} 100%)`,
+                            color: light ? "#141414" : "#fff",
+                          }}
+                        >
+                          <span aria-hidden="true" className="absolute -top-1/2 -left-1/4 w-[120%] h-full rotate-[-20deg] bg-gradient-to-b from-white/30 to-transparent" />
+                          <span className="relative w-full h-full grid place-items-center">
+                            <Icon icon={k.icon} />
+                          </span>
                         </span>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            ))}
+                      </button>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
