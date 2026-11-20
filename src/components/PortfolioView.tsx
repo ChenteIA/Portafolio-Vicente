@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Award, Terminal, ChevronRight, Mail, Database, FileSpreadsheet, Wrench, Download, ArrowUpRight } from "lucide-react";
+import { Award, Terminal, ChevronRight, Mail, Database, FileSpreadsheet, Wrench, ArrowUpRight } from "lucide-react";
 import type { Navigate } from "../App";
 import TerminalWindow from "./Terminal";
 import SkillsKeyboard from "./SkillsKeyboard";
@@ -146,6 +146,13 @@ const EXTRA_DEMOS = [
   },
 ];
 
+// El ">" naranja del logo; se desplaza un poco al pasar el mouse
+const Chevron = ({ className = "" }: { className?: string }) => (
+  <svg viewBox="0 0 12 14" className={`w-3 h-3.5 shrink-0 transition-transform group-hover:translate-x-0.5 ${className}`} aria-hidden="true">
+    <path d="M2 2l6 5-6 5" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 const SectionHeader = ({ n, title }: { n: string; title: string }) => (
   <div className="flex items-center gap-4 mb-10">
     <span className="font-mono text-brand-orange font-bold text-xl md:text-2xl">{n}.</span>
@@ -187,28 +194,31 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
             </p>
 
             <div
-              className="flex flex-wrap items-center gap-3 mt-6"
+              className="flex flex-wrap items-center gap-2 sm:gap-3 mt-6"
             >
               <a
                 href="#contacto"
-                className="bg-brand-orange hover:bg-[#ff8a33] text-brand-bg font-mono font-bold py-3 px-5 sm:px-8 rounded-xl transition-all uppercase text-sm tracking-widest shadow-[0_0_15px_rgba(255,107,0,0.3)] hover:shadow-[0_0_25px_rgba(255,107,0,0.5)] transform hover:-translate-y-0.5"
+                className="group inline-flex items-center gap-2 bg-brand-orange hover:bg-[#ff8a33] text-brand-bg font-mono font-bold text-[13px] sm:text-[15px] py-3 px-3 sm:px-5 rounded-xl border border-brand-orange transition-all shadow-[0_0_15px_rgba(255,107,0,0.3)] hover:shadow-[0_0_25px_rgba(255,107,0,0.5)] hover:-translate-y-0.5"
               >
-                Hablemos
+                <Chevron className="text-brand-bg" />
+                <span>hablemos<span className="animate-pulse">_</span></span>
               </a>
               <a
                 href="/CV_Vicente_Celis_Arias.pdf"
                 download
-                className="bg-white/5 border border-white/10 hover:border-brand-cyan/50 text-white font-mono font-bold py-3 px-4 sm:px-6 rounded-xl transition-all uppercase text-sm tracking-widest backdrop-blur-sm flex items-center gap-2"
+                className="group inline-flex items-center gap-2 border border-white/15 hover:border-brand-orange/60 bg-white/[0.03] text-brand-text font-mono font-medium text-[13px] sm:text-[15px] py-3 px-3 sm:px-5 rounded-xl transition-all hover:-translate-y-0.5"
               >
-                <Download className="w-4 h-4" aria-hidden="true" /> CV
+                <Chevron className="text-brand-orange" />
+                cv.pdf
               </a>
               <a
                 href="https://github.com/ChenteIA"
                 target="_blank"
                 rel="noreferrer"
-                className="bg-white/5 border border-white/10 hover:border-white/30 text-white font-mono font-bold py-3 px-4 sm:px-6 rounded-xl transition-all uppercase text-sm tracking-widest backdrop-blur-sm"
+                className="group inline-flex items-center gap-2 border border-white/15 hover:border-brand-orange/60 bg-white/[0.03] text-brand-text font-mono font-medium text-[13px] sm:text-[15px] py-3 px-3 sm:px-5 rounded-xl transition-all hover:-translate-y-0.5"
               >
-                GitHub
+                <Chevron className="text-brand-orange" />
+                github
               </a>
             </div>
           </div>
