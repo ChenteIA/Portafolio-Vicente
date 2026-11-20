@@ -179,7 +179,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
                 <span className="absolute inset-0 rounded-full bg-[#28c840] animate-ping opacity-60" />
                 <span className="relative w-2 h-2 rounded-full bg-[#28c840]" />
               </span>
-              Disponible para trabajar · Mala, Cañete
+              Disponible para trabajar en Lima, Cañete e Ica
             </span>
             <h1 className="font-display text-5xl md:text-7xl font-extrabold text-brand-text tracking-tight leading-tight md:leading-tight mb-2">
               Vicente Celis Arias
