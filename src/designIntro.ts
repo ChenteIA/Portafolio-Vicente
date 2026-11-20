@@ -1,17 +1,9 @@
 // @ts-nocheck
 // Intro "diseño en vivo" estilo Canva: cursores con nombre (Vicente, Datos, Código, Diseño)
 // dibujan recuadros de selección y el contenido del inicio aparece dentro de cada uno.
-// Solo en la primera visita, se salta con clic o Esc, y no corre con movimiento reducido.
-
-const STORAGE_KEY = "intro-diseno-en-vivo-v1";
+// Se ve en cada visita (~2,5 s), se salta con clic o Esc, y no corre con movimiento reducido.
 
 export function runDesignIntro() {
-  try {
-    if (localStorage.getItem(STORAGE_KEY)) return;
-    localStorage.setItem(STORAGE_KEY, "1");
-  } catch {
-    return;
-  }
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   function start() {
@@ -38,11 +30,11 @@ export function runDesignIntro() {
       ".cv-cur{position:absolute;left:0;top:0;transition:transform .55s " + EASE + ";will-change:transform}" +
       ".cv-cur svg{display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}" +
       ".cv-cur .tag{position:absolute;left:16px;top:18px;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;color:#0f121c;white-space:nowrap}" +
-      ".cv-box{position:absolute;border:2px solid;border-radius:3px;clip-path:inset(0 100% 100% 0);transition:clip-path .45s " + EASE + ",opacity .4s ease}" +
+      ".cv-box{position:absolute;border:2px solid;border-radius:3px;clip-path:inset(0 100% 100% 0);transition:clip-path .32s " + EASE + ",opacity .4s ease}" +
       ".cv-box.on{clip-path:inset(-14px -14px -14px -14px)}" +
       ".cv-box i{position:absolute;width:8px;height:8px;background:#fff;border:2px solid;border-radius:2px}" +
       ".cv-hide{opacity:0!important;transform:scale(.96)}" +
-      ".cv-reveal{transition:opacity .45s ease,transform .6s " + EASE + "!important}" +
+      ".cv-reveal{transition:opacity .35s ease,transform .45s " + EASE + "!important}" +
       ".cv-box .lbl{position:absolute;left:-2px;top:-21px;padding:1px 7px;border-radius:4px 4px 4px 0;font-size:10px;font-weight:700;color:#0f121c;white-space:nowrap}";
     document.head.appendChild(css);
 
@@ -100,7 +92,7 @@ export function runDesignIntro() {
         if (!visible(r)) { (reveal || [el]).forEach(show); return; }
         var x = Math.max(4, r.left - pad), y = Math.max(4, r.top - pad);
         var w = Math.min(W - x - 4, r.width + pad * 2), h = r.height + pad * 2;
-        move(k, x - 2, y - 2, 500);
+        move(k, x - 2, y - 2, 340);
         var box = document.createElement("div");
         box.className = "cv-box";
         box.style.cssText += "left:" + x + "px;top:" + y + "px;width:" + w + "px;height:" + h + "px;border-color:" + u.color;
@@ -112,14 +104,14 @@ export function runDesignIntro() {
         layer.insertBefore(box, bar);
         setTimeout(function () {
           box.classList.add("on");
-          move(k, x + w - 6, y + h - 6, 450);
-        }, 520);
+          move(k, x + w - 6, y + h - 6, 320);
+        }, 340);
         setTimeout(function () {
           (reveal || [el]).forEach(show);
-        }, 900);
+        }, 620);
         setTimeout(function () {
           box.style.opacity = "0";
-        }, 1700);
+        }, 1150);
       });
     }
 
@@ -141,11 +133,11 @@ export function runDesignIntro() {
       bar.style.opacity = "1";
       bar.style.transform = "translate(-50%,0)";
     });
-    select("diseno", avatar, 100, "Imagen", 4, [column]);
-    select("vicente", h1, 250, "Título", 10, [label, h1]);
-    select("codigo", subtitle, 1000, "Subtítulo", 8);
-    select("datos", para, 1750, "Texto", 10);
-    select("vicente", buttons, 2350, "Botones", 8);
+    select("diseno", avatar, 40, "Imagen", 4, [column]);
+    select("vicente", h1, 120, "Título", 10, [label, h1]);
+    select("codigo", subtitle, 600, "Subtítulo", 8);
+    select("datos", para, 1050, "Texto", 10);
+    select("vicente", buttons, 1450, "Botones", 8);
 
     function finish() {
       timers.forEach(clearTimeout);
@@ -171,7 +163,7 @@ export function runDesignIntro() {
     }
     window.addEventListener("keydown", onKey);
     window.addEventListener("pointerdown", finish);
-    at(3700, finish);
+    at(2350, finish);
     return true;
   }
 

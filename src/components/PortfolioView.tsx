@@ -245,14 +245,14 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
             >
               <a
                 href="#contacto"
-                className="bg-brand-orange hover:bg-[#ff8a33] text-brand-bg font-mono font-bold py-3 px-8 rounded-xl transition-all uppercase text-sm tracking-widest shadow-[0_0_15px_rgba(255,107,0,0.3)] hover:shadow-[0_0_25px_rgba(255,107,0,0.5)] transform hover:-translate-y-0.5"
+                className="bg-brand-orange hover:bg-[#ff8a33] text-brand-bg font-mono font-bold py-3 px-5 sm:px-8 rounded-xl transition-all uppercase text-sm tracking-widest shadow-[0_0_15px_rgba(255,107,0,0.3)] hover:shadow-[0_0_25px_rgba(255,107,0,0.5)] transform hover:-translate-y-0.5"
               >
                 Hablemos
               </a>
               <a
                 href="/CV_Vicente_Celis_Arias.pdf"
                 download
-                className="bg-white/5 border border-white/10 hover:border-brand-cyan/50 text-white font-mono font-bold py-3 px-6 rounded-xl transition-all uppercase text-sm tracking-widest backdrop-blur-sm flex items-center gap-2"
+                className="bg-white/5 border border-white/10 hover:border-brand-cyan/50 text-white font-mono font-bold py-3 px-4 sm:px-6 rounded-xl transition-all uppercase text-sm tracking-widest backdrop-blur-sm flex items-center gap-2"
               >
                 <Download className="w-4 h-4" aria-hidden="true" /> CV
               </a>
@@ -260,7 +260,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
                 href="https://github.com/ChenteIA"
                 target="_blank"
                 rel="noreferrer"
-                className="bg-white/5 border border-white/10 hover:border-white/30 text-white font-mono font-bold py-3 px-6 rounded-xl transition-all uppercase text-sm tracking-widest backdrop-blur-sm"
+                className="bg-white/5 border border-white/10 hover:border-white/30 text-white font-mono font-bold py-3 px-4 sm:px-6 rounded-xl transition-all uppercase text-sm tracking-widest backdrop-blur-sm"
               >
                 GitHub
               </a>
@@ -272,7 +272,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
             <div className="absolute inset-0 bg-gradient-to-tr from-brand-orange/15 to-brand-cyan/5 rounded-full blur-[80px] z-0" />
 
             {/* Orbital Ring System: rotación en CSS (compositor), sin JS por frame */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] md:w-[380px] md:h-[380px] z-0 pointer-events-none select-none text-white">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[230px] h-[230px] sm:w-[280px] sm:h-[280px] md:w-[380px] md:h-[380px] z-0 pointer-events-none select-none text-white">
               <div className="absolute inset-0 rounded-full border border-white/10 border-dashed opacity-60 shadow-[0_0_30px_rgba(255,255,255,0.02)_inset]" />
 
               <div className="absolute inset-0 animate-orbit">

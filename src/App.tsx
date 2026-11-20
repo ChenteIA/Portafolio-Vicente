@@ -26,7 +26,7 @@ export default function App() {
   }, [scrollTarget]);
 
   return (
-    <div className="min-h-screen bg-brand-bg/90 text-brand-text antialiased selection:bg-brand-orange selection:text-white relative flex flex-col">
+    <div className="min-h-screen bg-brand-bg/90 text-brand-text antialiased selection:bg-brand-orange selection:text-white relative flex flex-col overflow-x-clip">
       {/* Handcrafted tech grid background overlay */}
       <div className="fixed inset-0 tech-grid pointer-events-none opacity-[0.35] z-0" />
 
