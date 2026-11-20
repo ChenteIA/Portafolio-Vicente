@@ -1,4 +1,4 @@
-import { useState, useEffect, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Award, Terminal, ChevronRight, Mail, Database, FileSpreadsheet, Wrench, Download, ArrowUpRight } from "lucide-react";
 import type { Navigate } from "../App";
 import TerminalWindow from "./Terminal";
@@ -146,54 +146,6 @@ const EXTRA_DEMOS = [
   },
 ];
 
-const prefersReducedMotion = () =>
-  typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-
-const TypewriterText = ({ text, delay = 0, className = "" }: { text: string, delay?: number, className?: string }) => {
-  const [displayedText, setDisplayedText] = useState(() => (prefersReducedMotion() ? text : ""));
-  const [isTyping, setIsTyping] = useState(false);
-
-  useEffect(() => {
-    if (prefersReducedMotion()) {
-      setDisplayedText(text);
-      return;
-    }
-
-    let typingInterval: ReturnType<typeof setInterval> | undefined;
-    let charIndex = 0;
-
-    const timeout = setTimeout(() => {
-      setIsTyping(true);
-      typingInterval = setInterval(() => {
-        if (charIndex < text.length) {
-          setDisplayedText(text.slice(0, charIndex + 1));
-          charIndex++;
-        } else {
-          clearInterval(typingInterval);
-          setIsTyping(false);
-        }
-      }, 40);
-    }, delay);
-
-    return () => {
-      clearTimeout(timeout);
-      clearInterval(typingInterval);
-    };
-  }, [text, delay]);
-
-  return (
-    <span className={className}>
-      <span className="sr-only">{text}</span>
-      <span aria-hidden="true">
-        {displayedText}
-        {isTyping && <span className="animate-blink inline-block w-[0.4em] h-[1em] bg-current align-middle ml-1" />}
-        {/* El resto del texto, invisible, reserva el espacio final y evita saltos de layout */}
-        <span className="invisible">{text.slice(displayedText.length)}</span>
-      </span>
-    </span>
-  );
-};
-
 const SectionHeader = ({ n, title }: { n: string; title: string }) => (
   <div className="flex items-center gap-4 mb-10">
     <span className="font-mono text-brand-orange font-bold text-xl md:text-2xl">{n}.</span>
@@ -223,19 +175,19 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
               Disponible para trabajar · Mala, Cañete
             </span>
             <h1 className="font-display text-5xl md:text-7xl font-extrabold text-brand-text tracking-tight leading-tight md:leading-tight mb-2">
-              <TypewriterText text="Vicente Celis Arias" delay={250} />
+              Vicente Celis Arias
             </h1>
             <div className="font-mono text-xl md:text-2xl text-brand-cyan font-semibold">
-              <TypewriterText text="> Matemático e Informático" delay={1000} />
+              &gt; Matemático e Informático
             </div>
             <p
-              className="animate-fade-up text-lg md:text-xl max-w-2xl text-brand-muted/90 leading-relaxed mt-4"
+              className="text-lg md:text-xl max-w-2xl text-brand-muted/90 leading-relaxed mt-4"
             >
               Egresado de la Universidad Nacional San Luis Gonzaga de Ica. Trabajo con datos, bases de datos y soporte informático, automatizo procesos y desarrollo páginas web. Tengo experiencia en el Área de Informática de un hospital público y en el sector público como fiscalizador del JNE.
             </p>
 
             <div
-              className="animate-fade-up flex flex-wrap items-center gap-3 mt-6"
+              className="flex flex-wrap items-center gap-3 mt-6"
             >
               <a
                 href="#contacto"
