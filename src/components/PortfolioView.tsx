@@ -1,5 +1,4 @@
 import { useState, useEffect, type ReactNode } from "react";
-import { motion, useReducedMotion } from "motion/react";
 import { Award, Terminal, ChevronRight, Mail, Database, FileSpreadsheet, Wrench, Download, ArrowUpRight } from "lucide-react";
 import type { Navigate } from "../App";
 import { PythonIcon, ClaudeIcon, PowerBIIcon, WhatsAppIcon, InstagramIcon } from "./icons";
@@ -145,15 +144,16 @@ const EXTRA_DEMOS = [
   },
 ];
 
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
 const TypewriterText = ({ text, delay = 0, className = "" }: { text: string, delay?: number, className?: string }) => {
-  const [displayedText, setDisplayedText] = useState("");
+  const [displayedText, setDisplayedText] = useState(() => (prefersReducedMotion() ? text : ""));
   const [isTyping, setIsTyping] = useState(false);
-  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    if (reduceMotion) {
+    if (prefersReducedMotion()) {
       setDisplayedText(text);
-      setIsTyping(false);
       return;
     }
 
@@ -170,27 +170,21 @@ const TypewriterText = ({ text, delay = 0, className = "" }: { text: string, del
           clearInterval(typingInterval);
           setIsTyping(false);
         }
-      }, 50);
+      }, 40);
     }, delay);
 
     return () => {
       clearTimeout(timeout);
       clearInterval(typingInterval);
     };
-  }, [text, delay, reduceMotion]);
+  }, [text, delay]);
 
   return (
     <span className={className}>
       <span className="sr-only">{text}</span>
       <span aria-hidden="true">
         {displayedText}
-        {isTyping && (
-          <motion.span
-            animate={{ opacity: [1, 0, 1] }}
-            transition={{ repeat: Infinity, duration: 0.8 }}
-            className="inline-block w-[0.4em] h-[1em] bg-current align-middle ml-1"
-          />
-        )}
+        {isTyping && <span className="animate-blink inline-block w-[0.4em] h-[1em] bg-current align-middle ml-1" />}
         {/* El resto del texto, invisible, reserva el espacio final y evita saltos de layout */}
         <span className="invisible">{text.slice(displayedText.length)}</span>
       </span>
@@ -223,25 +217,19 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
               Portafolio Profesional
             </span>
             <h1 className="font-display text-5xl md:text-7xl font-extrabold text-brand-text tracking-tight leading-tight md:leading-tight mb-2">
-              <TypewriterText text="Vicente Celis Arias" delay={200} />
+              <TypewriterText text="Vicente Celis Arias" delay={250} />
             </h1>
             <div className="font-mono text-xl md:text-2xl text-brand-cyan font-semibold">
-              <TypewriterText text="> Matemático e Informático" delay={1300} />
+              <TypewriterText text="> Matemático e Informático" delay={1000} />
             </div>
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2.5, duration: 0.8 }}
-              className="text-lg md:text-xl max-w-2xl text-brand-muted/90 leading-relaxed mt-4"
+            <p
+              className="animate-fade-up text-lg md:text-xl max-w-2xl text-brand-muted/90 leading-relaxed mt-4"
             >
               Egresado de la Universidad Nacional San Luis Gonzaga de Ica. Trabajo con datos, bases de datos y soporte informático, automatizo procesos y desarrollo páginas web. Tengo experiencia en el Área de Informática de un hospital público y en el sector público como fiscalizador del JNE.
-            </motion.p>
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2.8, duration: 0.8 }}
-              className="flex flex-wrap items-center gap-3 mt-6"
+            <div
+              className="animate-fade-up flex flex-wrap items-center gap-3 mt-6"
             >
               <a
                 href="#contacto"
@@ -264,7 +252,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
               >
                 GitHub
               </a>
-            </motion.div>
+            </div>
           </div>
 
           <div className="col-span-1 md:col-span-5 relative flex justify-center items-center h-[400px]">
@@ -302,10 +290,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
             </div>
 
             {/* Avatar (elemento LCP: prioridad alta y visible desde el primer frame) */}
-            <motion.img
-              initial={{ scale: 0.95 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, duration: 1, ease: "easeOut" }}
+            <img
               alt="Avatar de Vicente Celis Arias"
               src="/avatar.webp"
               width={285}

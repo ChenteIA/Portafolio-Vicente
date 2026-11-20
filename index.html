@@ -21,13 +21,11 @@
     <meta property="og:url" content="https://portafolio-vicente-blush.vercel.app/" />
     <meta property="og:title" content="Vicente Celis Arias · Matemático e Informático" />
     <meta property="og:description" content="Análisis de datos, soporte informático, automatización de procesos y desarrollo web." />
-    <!-- TODO: añadir public/og-image.png (1200x630) y descomentar -->
     <meta property="og:image" content="https://portafolio-vicente-blush.vercel.app/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://portafolio-vicente-blush.vercel.app/og-image.png" />
-    <!-- Cambiar a summary_large_image cuando exista og-image.png -->
 
     <!-- Fuentes (preconnect evita bloquear el renderizado) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -47,6 +45,165 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <div id="root"></div>
+    <script>
+/* Intro "diseño en vivo" estilo Canva. Corre apenas llega el HTML (sin esperar al JS de la app):
+   1) lienzo, barra "4 personas diseñando…" y cursores al instante;
+   2) cuando React pinta el inicio, cada cursor dibuja un recuadro y el contenido aparece dentro (~3,3 s).
+   Se ve en cada visita, se salta con clic/toque o Esc, y se omite con movimiento reducido. */
+(function () {
+  try {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  } catch (e) {}
+  var EASE = "cubic-bezier(.23,1,.32,1)";
+  var USERS = {
+    vicente: { name: "Vicente", color: "#ff6b00" },
+    datos: { name: "Datos", color: "#22d3ee" },
+    codigo: { name: "Código", color: "#facc15" },
+    diseno: { name: "Diseño", color: "#a78bfa" }
+  };
+  var css = document.createElement("style");
+  css.textContent =
+    ".cv-layer{position:fixed;inset:0;z-index:9999;pointer-events:none;font-family:Inter,system-ui,sans-serif}" +
+    ".cv-grid{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1px);background-size:22px 22px;opacity:0;transition:opacity .4s ease}" +
+    ".cv-bar{position:absolute;top:76px;left:50%;transform:translate(-50%,-14px);opacity:0;display:flex;align-items:center;gap:10px;padding:6px 12px 6px 8px;border-radius:999px;background:rgba(15,18,28,.92);border:1px solid rgba(255,255,255,.12);box-shadow:0 8px 30px rgba(0,0,0,.4);transition:transform .45s " + EASE + ",opacity .45s ease;white-space:nowrap}" +
+    ".cv-bar .dots{display:flex}.cv-bar .dot{width:22px;height:22px;border-radius:50%;border:2px solid #0f121c;margin-left:-6px;display:grid;place-items:center;font-size:10px;font-weight:700;color:#0f121c}.cv-bar .dot:first-child{margin-left:0}" +
+    ".cv-bar span{color:#e5e7eb;font-size:12px;font-weight:600}.cv-bar .live{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e}" +
+    ".cv-cur{position:absolute;left:0;top:0;transition:transform .5s " + EASE + ";will-change:transform}" +
+    ".cv-cur svg{display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}" +
+    ".cv-cur b{position:absolute;left:16px;top:18px;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;color:#0f121c;white-space:nowrap}" +
+    ".cv-box{position:absolute;border:2px solid;border-radius:3px;clip-path:inset(0 100% 100% 0);transition:clip-path .38s " + EASE + ",opacity .4s ease}" +
+    ".cv-box.on{clip-path:inset(-14px)}" +
+    ".cv-box i{position:absolute;width:8px;height:8px;background:#fff;border:2px solid;border-radius:2px}" +
+    ".cv-box b{position:absolute;left:-2px;top:-21px;padding:1px 7px;border-radius:4px 4px 4px 0;font-size:10px;font-weight:700;color:#0f121c;white-space:nowrap}" +
+    ".cv-hide{opacity:0!important}" +
+    ".cv-reveal{transition:opacity .4s ease!important}";
+  document.head.appendChild(css);
+
+  var layer = document.createElement("div");
+  layer.className = "cv-layer";
+  layer.setAttribute("aria-hidden", "true");
+  var grid = document.createElement("div");
+  grid.className = "cv-grid";
+  layer.appendChild(grid);
+  var bar = document.createElement("div");
+  bar.className = "cv-bar";
+  var dots = '<div class="dots">';
+  for (var k0 in USERS) dots += '<div class="dot" style="background:' + USERS[k0].color + '">' + USERS[k0].name[0] + "</div>";
+  bar.innerHTML = dots + '</div><div class="live"></div><span>4 personas diseñando…</span>';
+  layer.appendChild(bar);
+  document.body.appendChild(layer);
+
+  var W = window.innerWidth, H = window.innerHeight;
+  var cursors = {};
+  var starts = { vicente: [-40, H * 0.35], datos: [W + 40, H * 0.9], codigo: [W * 0.3, H + 40], diseno: [W + 40, H * 0.15] };
+  var idle = { vicente: [W * 0.18, H * 0.32], datos: [W * 0.62, H * 0.62], codigo: [W * 0.3, H * 0.7], diseno: [W * 0.7, H * 0.28] };
+  for (var k in USERS) {
+    var c = document.createElement("div");
+    c.className = "cv-cur";
+    c.innerHTML = '<svg width="18" height="20" viewBox="0 0 18 20"><path d="M1 1l15 7.5-6.5 1.8L6.8 18z" fill="' + USERS[k].color + '" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg><b style="background:' + USERS[k].color + '">' + USERS[k].name + "</b>";
+    c.style.transform = "translate(" + starts[k][0] + "px," + starts[k][1] + "px)";
+    layer.appendChild(c);
+    cursors[k] = c;
+  }
+  function move(k, x, y, ms) {
+    cursors[k].style.transitionDuration = (ms || 500) + "ms";
+    cursors[k].style.transform = "translate(" + x + "px," + y + "px)";
+  }
+
+  // Fase 1: lienzo y cursores al instante; se mueven suavemente mientras carga la app
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      grid.style.opacity = "1";
+      bar.style.opacity = "1";
+      bar.style.transform = "translate(-50%,0)";
+      for (var k in idle) move(k, idle[k][0], idle[k][1], 650);
+    });
+  });
+  var wander = setInterval(function () {
+    for (var k in idle) move(k, idle[k][0] + (Math.random() - 0.5) * 70, idle[k][1] + (Math.random() - 0.5) * 50, 700);
+  }, 750);
+
+  var timers = [], hidden = [], done = false, started = false;
+  function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
+  function show(e) { if (e) e.classList.remove("cv-hide"); }
+
+  function finish() {
+    if (done) return;
+    done = true;
+    clearInterval(wander);
+    timers.forEach(clearTimeout);
+    hidden.forEach(show);
+    setTimeout(function () { hidden.forEach(function (e) { e.classList.remove("cv-reveal"); }); }, 600);
+    var i = 0;
+    for (var k in cursors) { move(k, i % 2 ? W + 60 : -60, H * (0.2 + i * 0.2), 600); i++; }
+    grid.style.opacity = "0";
+    bar.style.opacity = "0";
+    bar.style.transform = "translate(-50%,-14px)";
+    var boxes = layer.querySelectorAll(".cv-box");
+    for (var j = 0; j < boxes.length; j++) boxes[j].style.opacity = "0";
+    setTimeout(function () { layer.remove(); css.remove(); }, 650);
+    window.removeEventListener("keydown", onKey);
+    window.removeEventListener("pointerdown", finish);
+  }
+  function onKey(e) { if (e.key === "Escape") finish(); }
+  window.addEventListener("keydown", onKey);
+  window.addEventListener("pointerdown", finish);
+
+  // Selección tipo Canva: va a la esquina, arrastra el recuadro y el contenido aparece dentro
+  function select(k, el, t0, label, pad, reveal) {
+    if (!el) return;
+    reveal = reveal || [el];
+    var u = USERS[k];
+    at(t0, function () {
+      var r = el.getBoundingClientRect();
+      if (!(r.width > 0 && r.top < H - 20 && r.bottom > 0)) { reveal.forEach(show); return; }
+      var x = Math.max(4, r.left - pad), y = Math.max(4, r.top - pad);
+      var w = Math.min(W - x - 4, r.width + pad * 2), h = r.height + pad * 2;
+      move(k, x - 2, y - 2, 420);
+      var box = document.createElement("div");
+      box.className = "cv-box";
+      box.style.cssText = "left:" + x + "px;top:" + y + "px;width:" + w + "px;height:" + h + "px;border-color:" + u.color;
+      var hs = [["left:-5px;top:-5px"], ["right:-5px;top:-5px"], ["left:-5px;bottom:-5px"], ["right:-5px;bottom:-5px"]];
+      var html = "";
+      for (var i = 0; i < hs.length; i++) html += '<i style="border-color:' + u.color + ";" + hs[i][0] + '"></i>';
+      box.innerHTML = html + '<b style="background:' + u.color + '">' + u.name + " · " + label + "</b>";
+      layer.insertBefore(box, bar);
+      at(430, function () { box.classList.add("on"); move(k, x + w - 6, y + h - 6, 380); });
+      at(800, function () { reveal.forEach(show); });
+      at(1400, function () { box.style.opacity = "0"; });
+    });
+  }
+
+  // Fase 2: cuando la app pinta el inicio
+  function begin() {
+    if (started || done) return true;
+    var header = document.querySelector("#root header");
+    var h1 = header && header.querySelector("h1");
+    if (!h1) return false;
+    started = true;
+    clearInterval(wander);
+    var subtitle = h1.nextElementSibling;
+    var para = header.querySelector("p");
+    var cta = header.querySelector('a[href="#contacto"]');
+    var buttons = cta && cta.parentElement;
+    var avatar = header.querySelector("img");
+    var column = avatar && avatar.parentElement;
+    hidden = [h1.previousElementSibling, h1, subtitle, para, buttons, column].filter(Boolean);
+    hidden.forEach(function (e) { e.classList.add("cv-reveal", "cv-hide"); });
+    select("diseno", avatar, 60, "Imagen", 4, [column]);
+    select("vicente", h1, 200, "Título", 10, [h1.previousElementSibling, h1]);
+    select("codigo", subtitle, 1000, "Subtítulo", 8);
+    select("datos", para, 1700, "Texto", 10);
+    select("vicente", buttons, 2300, "Botones", 8);
+    at(3350, finish);
+    return true;
+  }
+  var mo = new MutationObserver(function () { if (begin()) mo.disconnect(); });
+  mo.observe(document.getElementById("root") || document.body, { childList: true, subtree: true });
+  // Seguridad: si la app no carga, no dejar la capa encima
+  setTimeout(function () { if (!started) finish(); }, 10000);
+})();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, type CSSProperties } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, MotionConfig } from "motion/react";
 import { Calculator, Plus, Trash2, RotateCcw, BookOpen, Award, FileText, ChevronDown, Lightbulb } from "lucide-react";
 
 type UniKey = "UNICA" | "UNMSM" | "UNI" | "PUCP" | "UTP" | "AUTONOMA" | "UPSJB";
@@ -178,6 +178,14 @@ const saveCourses = (data: Partial<Record<UniKey, Course[]>>) => {
 const snap = (x: number) => Math.round(x * 1e6) / 1e6;
 
 export default function GradeCalculatorView() {
+  return (
+    <MotionConfig reducedMotion="user">
+      <GradeCalculator />
+    </MotionConfig>
+  );
+}
+
+function GradeCalculator() {
   const [selectedUni, setSelectedUni] = useState<UniKey>("UNICA");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const uniConf = UNIVERSITIES[selectedUni];
