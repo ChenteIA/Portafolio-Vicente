@@ -1,6 +1,7 @@
 import { useState, useEffect, type ReactNode } from "react";
 import { Award, Terminal, ChevronRight, Mail, Database, FileSpreadsheet, Wrench, Download, ArrowUpRight } from "lucide-react";
 import type { Navigate } from "../App";
+import TerminalWindow from "./Terminal";
 import { PythonIcon, ClaudeIcon, PowerBIIcon, WhatsAppIcon, InstagramIcon } from "./icons";
 
 const WHATSAPP_URL = "https://wa.me/51971114393";
@@ -213,8 +214,12 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
         <header className="mb-24 grid grid-cols-1 md:grid-cols-12 gap-y-12 md:gap-y-0 md:gap-x-12 items-center">
 
           <div className="col-span-1 md:col-span-7 flex flex-col items-start gap-4">
-            <span className="font-mono text-brand-orange font-semibold uppercase tracking-[0.2em] text-xs">
-              Portafolio Profesional
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#28c840]/30 bg-[#28c840]/[0.08] px-3 py-1 text-xs font-medium text-[#8ff0a4]">
+              <span className="relative flex w-2 h-2" aria-hidden="true">
+                <span className="absolute inset-0 rounded-full bg-[#28c840] animate-ping opacity-60" />
+                <span className="relative w-2 h-2 rounded-full bg-[#28c840]" />
+              </span>
+              Disponible para trabajar · Mala, Cañete
             </span>
             <h1 className="font-display text-5xl md:text-7xl font-extrabold text-brand-text tracking-tight leading-tight md:leading-tight mb-2">
               <TypewriterText text="Vicente Celis Arias" delay={250} />
@@ -303,14 +308,16 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
         </header>
 
         {/* 2. SOBRE MÍ */}
-        <section id="sobremi" className="mb-24 scroll-mt-28">
+        <section id="sobremi" className="mb-24 scroll-mt-28 relative">
+          <div aria-hidden="true" className="pointer-events-none absolute -left-40 top-10 w-[420px] h-[420px] rounded-full bg-brand-cyan/[0.06] blur-[100px]" />
           <SectionHeader n="01" title="Sobre mí & Trayectoria" />
 
           <div className="flex flex-col lg:flex-row gap-12">
             {/* Main Content: Timeline equivalent */}
-            <div className="flex-1 space-y-10">
+            <div className="flex-1 space-y-10 relative">
+              <div aria-hidden="true" className="absolute left-0 top-1 bottom-0 w-px bg-gradient-to-b from-brand-orange/70 via-brand-cyan/40 to-transparent" />
               {TIMELINE.map((item) => (
-                <div key={item.title} className="relative pl-6 border-l border-white/10">
+                <div key={item.title} className="relative pl-6">
                   <div className={`absolute w-3 h-3 rounded-full -left-[6.5px] top-1 ${item.dot}`} />
                   <h3 className="text-xl font-bold text-brand-text">{item.title}</h3>
                   <p className={`text-xs font-mono uppercase tracking-wider mt-1 mb-3 font-bold ${item.dateClass}`}>{item.date}</p>
@@ -320,7 +327,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
             </div>
 
             {/* Sidebar: Formación Continua */}
-            <aside className="lg:w-80 shrink-0 bg-brand-surface border border-white/10 rounded-2xl p-8 h-fit shadow-2xl backdrop-blur-sm lg:sticky lg:top-32">
+            <aside className="lg:w-80 shrink-0 bg-gradient-to-b from-brand-surface to-brand-panel border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_24px_48px_-24px_rgba(0,0,0,0.8)] rounded-2xl p-8 h-fit lg:sticky lg:top-32">
               <h4 className="text-lg font-bold text-brand-text mb-6 flex items-center gap-2 border-b border-white/10 pb-4">
                  <Award className="w-5 h-5 text-brand-orange" /> Certificaciones
               </h4>
@@ -368,13 +375,14 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
         </div>
 
         {/* 3. PROYECTOS */}
-        <section id="proyectos" className="mb-24 scroll-mt-28">
+        <section id="proyectos" className="mb-24 scroll-mt-28 relative">
+          <div aria-hidden="true" className="pointer-events-none absolute -right-40 top-1/3 w-[460px] h-[460px] rounded-full bg-brand-orange/[0.07] blur-[110px]" />
           <SectionHeader n="02" title="Proyectos Destacados" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {PROJECTS.map((project) => (
-              <article key={project.title} className="bg-brand-surface border border-white/10 p-8 flex flex-col rounded-2xl shadow-xl hover:border-brand-orange/50 transition-colors group cursor-default relative overflow-hidden">
-                <div className={`absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r ${project.accent.bar} to-transparent opacity-0 group-hover:opacity-100 transition-opacity`} />
+              <article key={project.title} className="bg-gradient-to-b from-brand-surface to-brand-panel border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_24px_48px_-24px_rgba(0,0,0,0.8)] p-8 flex flex-col rounded-2xl hover:border-brand-orange/40 hover:-translate-y-1 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_30px_60px_-24px_rgba(255,107,0,0.25)] transition-all duration-300 group cursor-default relative overflow-hidden">
+                <div className={`absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r ${project.accent.bar} to-transparent opacity-50 group-hover:opacity-100 transition-opacity`} />
                 <div className="inline-block bg-white/5 px-3 py-1 text-[10px] font-mono text-brand-cyan uppercase tracking-widest mb-4 w-fit font-bold border border-white/10 rounded">{project.tag}</div>
                 <h3 className={`text-2xl font-bold text-brand-text mb-4 transition-colors ${project.accent.title}`}>{project.title}</h3>
                 <dl className="text-brand-muted/80 flex-1 mb-6 text-sm space-y-4">
@@ -399,13 +407,21 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
         </section>
 
         {/* 4. DEMOS EN VIVO */}
+        <section id="terminal" className="mb-24 scroll-mt-28 relative">
+          <SectionHeader n="03" title="Pregúntale a mi terminal" />
+          <div aria-hidden="true" className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-24 w-[520px] max-w-full h-[300px] rounded-full bg-brand-orange/[0.08] blur-[100px]" />
+          <div className="relative max-w-3xl">
+            <TerminalWindow />
+          </div>
+        </section>
+
         <section id="demos" className="mb-24 scroll-mt-28">
-          <SectionHeader n="03" title="Demos en vivo" />
+          <SectionHeader n="04" title="Demos en vivo" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <button
               onClick={() => onNavigate("calculator")}
-              className="text-left bg-brand-surface/80 border border-white/10 p-6 rounded-2xl hover:border-brand-orange/50 transition-all group shadow-xl backdrop-blur-md relative overflow-hidden"
+              className="text-left bg-gradient-to-b from-brand-surface to-brand-panel border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_24px_48px_-24px_rgba(0,0,0,0.8)] p-6 rounded-2xl hover:border-brand-orange/40 hover:-translate-y-1 transition-all duration-300 group relative overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-b from-brand-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="text-3xl mb-4 group-hover:-translate-y-1 transition-transform relative z-10" aria-hidden="true">🎓</div>
@@ -424,7 +440,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
                 href={demo.href}
                 target="_blank"
                 rel="noreferrer"
-                className="text-left bg-brand-surface/80 border border-white/10 p-6 rounded-2xl hover:border-brand-cyan/50 transition-all group shadow-xl backdrop-blur-md relative overflow-hidden"
+                className="text-left bg-gradient-to-b from-brand-surface to-brand-panel border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_24px_48px_-24px_rgba(0,0,0,0.8)] p-6 rounded-2xl hover:border-brand-cyan/40 hover:-translate-y-1 transition-all duration-300 group relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-brand-cyan/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="text-3xl mb-4 group-hover:-translate-y-1 transition-transform relative z-10" aria-hidden="true">{demo.emoji}</div>
@@ -439,8 +455,9 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
         </section>
 
         {/* 5. CONTACTO Y DESPEDIDA */}
-        <section id="contacto" className="py-16 text-center flex flex-col items-center scroll-mt-28">
-          <span className="font-mono text-brand-orange font-bold text-xl mb-4">04.</span>
+        <section id="contacto" className="py-16 text-center flex flex-col items-center scroll-mt-28 relative">
+          <div aria-hidden="true" className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 w-[600px] max-w-full h-[360px] rounded-full bg-brand-orange/[0.08] blur-[110px]" />
+          <span className="font-mono text-brand-orange font-bold text-xl mb-4 relative">05.</span>
           <h2 className="text-4xl md:text-6xl font-bold text-brand-text mb-6 tracking-tight">¿Trabajamos <br className="hidden md:block"/> juntos?</h2>
           <p className="text-lg text-brand-muted/80 mb-12 max-w-2xl">
             Si buscas a alguien para tu equipo o necesitas ordenar datos, soporte informático, automatizar tareas o una web para tu negocio, escríbeme. Respondo por correo o WhatsApp.

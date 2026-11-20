@@ -45,7 +45,15 @@ export default function App() {
       {/* Custom footer */}
       <footer className="relative border-t border-white/5 bg-brand-bg/90 py-8 z-10 text-center select-none text-xs text-brand-muted/60 mt-auto">
         <div className="max-w-7xl mx-auto px-4 md:px-10 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© 2026 Vicente Celis Arias. Todos los derechos reservados.</p>
+          <div className="flex flex-col items-center sm:items-start gap-1">
+            <p>© 2026 Vicente Celis Arias.</p>
+            <p className="font-mono text-[11px] text-brand-muted/50">
+              Hecho con React, TypeScript y Tailwind · desplegado en Vercel ·{" "}
+              <a href="https://github.com/ChenteIA/Portafolio-Vicente" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-brand-orange">
+                ver código
+              </a>
+            </p>
+          </div>
           <div className="flex gap-4">
             <button onClick={() => navigate("portfolio")} className="hover:text-brand-orange transition-colors">Volver arriba</button>
             <span aria-hidden="true">•</span>
