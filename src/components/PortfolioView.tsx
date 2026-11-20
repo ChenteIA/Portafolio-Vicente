@@ -1,38 +1,49 @@
 import { useState, useEffect, type ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Award, Terminal, ChevronRight, Mail, Database } from "lucide-react";
+import { Award, Terminal, ChevronRight, Mail, Database, FileSpreadsheet, Wrench } from "lucide-react";
 import type { Navigate } from "../App";
-import { NotebookLMIcon, PythonIcon, ClaudeIcon, QwenIcon, PowerBIIcon, WhatsAppIcon, InstagramIcon } from "./icons";
+import { PythonIcon, ClaudeIcon, PowerBIIcon, WhatsAppIcon, InstagramIcon } from "./icons";
 
 const WHATSAPP_URL = "https://wa.me/51971114393";
 
-// Tags flotando en la órbita alrededor del avatar
+// Tags flotando en la órbita alrededor del avatar: perfil completo (datos, soporte, ofimática, IA)
 const FLOATING_TAGS: { name: string; icon: ReactNode }[] = [
-  { name: "NotebookLM", icon: <NotebookLMIcon /> },
   { name: "Python", icon: <PythonIcon /> },
-  { name: "Claude", icon: <ClaudeIcon /> },
   { name: "SQL", icon: <Database size={20} className="text-[#366994]" /> },
-  { name: "Qwen", icon: <QwenIcon /> },
+  { name: "Excel", icon: <FileSpreadsheet size={20} className="text-[#21a366]" /> },
   { name: "Power BI", icon: <PowerBIIcon /> },
+  { name: "Soporte TI", icon: <Wrench size={20} className="text-brand-cyan" /> },
+  { name: "Claude", icon: <ClaudeIcon /> },
 ];
 
 // Una sola lista alimenta el "Stack Técnico" y el carrusel
 const SKILLS = [
   { name: "Python", dot: "text-brand-orange/20" },
   { name: "SQL", dot: "text-brand-cyan/20" },
+  { name: "Excel", dot: "text-[#21a366]/20" },
+  { name: "Power BI", dot: "text-brand-yellow/20" },
+  { name: "Soporte técnico", dot: "text-brand-cyan/20" },
+  { name: "ISO 27001", dot: "text-brand-orange/20" },
   { name: "TypeScript", dot: "text-brand-yellow/20" },
-  { name: "C++", dot: "text-brand-muted/20" },
   { name: "Google Apps Script", dot: "text-[#21a366]/20" },
-  { name: "Excel", dot: "text-white/10" },
+  { name: "C++", dot: "text-brand-muted/20" },
+  { name: "Git", dot: "text-white/10" },
 ];
 
 const TIMELINE = [
   {
-    title: "Fiscalización Electoral en Campo",
-    date: "Abril 2026",
+    title: "Fiscalizador de Local de Votación – Responsable · JNE",
+    date: "Octubre 2026 · JEE Cañete",
     dot: "bg-brand-orange shadow-[0_0_10px_var(--color-brand-orange)]",
     dateClass: "text-brand-yellow",
-    text: "Operaciones de campo para el aseguramiento y auditoría de procesos electorales, garantizando el cumplimiento normativo mediante metodologías estructuradas de verificación técnica y operativa in situ.",
+    text: "Fiscalización de la jornada de las Elecciones Regionales y Municipales 2026 en el distrito de Calango, en dupla con otro fiscalizador, y redacción del informe de fiscalización para el Jurado Electoral Especial.",
+  },
+  {
+    title: "Fiscalizador de Local de Votación Urbano · JNE",
+    date: "Abril — Junio 2026 · JEE Ica",
+    dot: "bg-brand-orange shadow-[0_0_10px_var(--color-brand-orange)]",
+    dateClass: "text-brand-yellow",
+    text: "Fiscalización de locales de votación en Ica durante las Elecciones Generales 2026 y la Segunda Elección Presidencial, siguiendo los protocolos del JNE. Servicio acreditado con constancia del JEE de Ica.",
   },
   {
     title: "Liderazgo Académico: Ciclo Introductorio",
@@ -42,53 +53,81 @@ const TIMELINE = [
     text: "Planificación, estructuración y dictado del ciclo para estudiantes cachimbos. Colaboración directa con la plana docente universitaria en la elaboración de materiales didácticos, fusionando pedagogía con ciencias exactas.",
   },
   {
-    title: "Prácticas Preprofesionales",
-    date: "Mayo — Agosto 2025",
+    title: "Prácticas Preprofesionales · Área de Informática",
+    date: "Mayo — Agosto 2025 · Hospital Augusto Hernández Mendoza, Ica",
     dot: "bg-brand-surface border border-white/30",
     dateClass: "text-white/50",
-    text: "Desarrollo técnico e implementación de soluciones informáticas y aplicación de matemáticas aplicadas en entornos organizacionales para la mejora continua de procesos.",
+    text: "Revisión y control de las bases de datos del hospital, y mantenimiento y revisión de los equipos de cómputo de sus áreas.",
+  },
+  {
+    title: "Egresado de Ciencias de la Informática y Matemática",
+    date: "2025 · UNICA",
+    dot: "bg-brand-surface border border-white/30",
+    dateClass: "text-white/50",
+    text: "Escuela de Matemática e Informática de la Universidad Nacional San Luis Gonzaga de Ica, con orientación en análisis de datos. Tesis en curso sobre predicción de deserción universitaria con Machine Learning.",
   },
 ];
 
 const CERTIFICATIONS = [
+  "Fundamentos de ISO 27001 · CTIC-UNI",
+  "Machine Learning con Python · CTIC-UNI",
+  "Python Básico e Intermedio · CTIC-UNI",
+  "Claude: IA Aplicada · WE Educación Ejecutiva (30 h)",
   "Congreso de Ingeniería INGEICA",
-  "Certificaciones en IA Aplicada",
   "Talleres de Matemática Computacional",
   "Análisis en Centros de Datos",
 ];
 
 const PROJECTS = [
   {
-    tag: "Análisis de Datos",
-    title: "Conceptos Financieros",
+    tag: "Machine Learning · Tesis",
+    title: "Predicción de Deserción Universitaria",
     accent: { bar: "from-brand-orange", title: "group-hover:text-brand-orange" },
-    problem: "Falta de visibilidad sobre los indicadores financieros organizacionales.",
-    solution: "Extracción, limpieza y modelado de datos usando pipelines robustos.",
-    result: "Modelos predictivos y dashboards claros que facilitan la toma de decisiones.",
-    stack: ["Python", "SQL", "Pandas"],
+    problem: "Identificar a tiempo a los estudiantes en riesgo de abandonar la universidad en la región Ica.",
+    solution: "Modelo Random Forest entrenado con datos socioeconómicos de la Encuesta Nacional de Hogares (ENAHO).",
+    result: "Proyecto de tesis aprobado en la evaluación de originalidad de la Facultad de Ciencias (UNICA).",
+    stack: ["Python", "Pandas", "Random Forest"],
   },
   {
-    tag: "Ingeniería de Software",
-    title: "Lógica de Programación",
+    tag: "Automatización",
+    title: "Registro de Ventas y Cuadre de Caja",
     accent: { bar: "from-brand-cyan", title: "group-hover:text-brand-cyan" },
-    problem: "Necesidad de repositorios formales de algoritmos avanzados en la academia.",
-    solution: "Estructuración de colecciones de algoritmos de alta complejidad.",
-    result: "Bases de conocimiento colaborativas que demuestran dominio profundo.",
-    stack: ["Git", "TypeScript", "C++"],
+    problem: "Cuadre de caja manual y lento al cierre de cada turno.",
+    solution: "Formulario propio que guarda cada venta en una hoja de cálculo con su forma de pago.",
+    result: "Totales por efectivo, Yape y crédito listos al instante para cerrar caja.",
+    stack: ["Google Forms", "Apps Script", "Sheets"],
+  },
+  {
+    tag: "Desarrollo Web",
+    title: "Webs para Negocios · Chente Solutions",
+    accent: { bar: "from-brand-yellow", title: "group-hover:text-brand-yellow" },
+    problem: "Pequeños negocios de Mala y Cañete sin presencia digital.",
+    solution: "Diseño, desarrollo y despliegue de sitios web rápidos y adaptados a celular.",
+    result: "Este portafolio y una calculadora universitaria publicados y en uso.",
+    stack: ["React", "TypeScript", "Vercel"],
   },
   {
     tag: "Automatización",
     title: "Control de Asistencia QR",
-    accent: { bar: "from-brand-yellow", title: "group-hover:text-brand-yellow" },
+    accent: { bar: "from-brand-orange", title: "group-hover:text-brand-orange" },
     problem: "Procesos manuales lentos en el registro de asistencia estudiantil.",
     solution: "Digitalización y agilización mediante identificadores dinámicos.",
     result: "Sistema autónomo de escaneo rápido y registro en tiempo real en la nube.",
     stack: ["Códigos QR", "Apps Script"],
   },
   {
+    tag: "Documentación Técnica",
+    title: "Mantenimiento de Triciclos · Club Playa Bonita",
+    accent: { bar: "from-brand-cyan", title: "group-hover:text-brand-cyan" },
+    problem: "La asociación necesitaba sustentar el mantenimiento de su flota de triciclos.",
+    solution: "Informe técnico en Word y listado de repuestos en Excel, con versiones PDF.",
+    result: "Documentación formal entregada en nombre del negocio familiar de bicicletas.",
+    stack: ["Word", "Excel", "PDF"],
+  },
+  {
     tag: "Productividad Ops",
     title: "Infraestructura en Zaps",
-    accent: { bar: "from-brand-orange", title: "group-hover:text-brand-orange" },
+    accent: { bar: "from-brand-yellow", title: "group-hover:text-brand-yellow" },
     problem: "Desconexión organizativa entre áreas multidisciplinarias.",
     solution: "Integración de APIs de terceros y flujos de trabajo sin código.",
     result: "Flujo 100% automatizado, donde registros activan notificaciones, tarjetas y alertas.",
@@ -190,7 +229,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
               transition={{ delay: 2.5, duration: 0.8 }}
               className="text-lg md:text-xl max-w-2xl text-brand-muted/90 leading-relaxed mt-4"
             >
-              Profesional egresado de la Universidad Nacional San Luis Gonzaga, enfocado en resolver problemas complejos mediante la lógica de programación y el análisis de datos. Apasionado por el diseño digital, la automatización de procesos y la enseñanza matemática y algorítmica.
+              Egresado de la Universidad Nacional San Luis Gonzaga de Ica. Trabajo con datos, bases de datos y soporte informático, automatizo procesos y desarrollo páginas web. Tengo experiencia en el Área de Informática de un hospital público y en el sector público como fiscalizador del JNE.
             </motion.p>
 
             <motion.div
@@ -400,7 +439,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
           <span className="font-mono text-brand-orange font-bold text-xl mb-4">04.</span>
           <h2 className="text-4xl md:text-6xl font-bold text-brand-text mb-6 tracking-tight">Impulsemos tu <br className="hidden md:block"/> próximo proyecto</h2>
           <p className="text-lg text-brand-muted/80 mb-12 max-w-2xl">
-            Ya sea optimizando datos complejos, generando automatizaciones eficientes o creando una identidad visual y programática profunda. Trabajemos juntos para materializar tu visión.
+            Ya sea ordenando y analizando datos, dando soporte informático, automatizando tareas repetitivas o creando la web de tu negocio. Conversemos sobre lo que necesitas.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto relative z-20">
             <a
