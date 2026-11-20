@@ -13,39 +13,39 @@ import { Database, FileSpreadsheet, Wrench, ShieldCheck, BarChart3, BrainCircuit
 type Skill = { name: string; used: string; color: string; icon: SimpleIcon | ReactNode };
 
 const SKILLS: Skill[] = [
-  { name: "Python", color: "#3776AB", icon: siPython, used: "Tesis de deserción universitaria y cursos de Python y Machine Learning (CTIC-UNI)." },
-  { name: "SQL", color: "#336791", icon: <Database />, used: "Revisión y control de bases de datos en el Área de Informática del hospital." },
-  { name: "Excel", color: "#217346", icon: <FileSpreadsheet />, used: "Nivel intermedio: listados de repuestos, reportes y cuadres de caja." },
-  { name: "Power BI", color: "#E8B90C", icon: <BarChart3 />, used: "Dashboards de KPI en el curso Claude: IA Aplicada." },
-  { name: "Google Sheets", color: "#34A853", icon: siGooglesheets, used: "Bases de clientes y registro de ventas con totales automáticos." },
-  { name: "Apps Script", color: "#4285F4", icon: siGoogleappsscript, used: "Formulario de ventas con cuadre de caja y control de asistencia con QR." },
-  { name: "Google Forms", color: "#7248B9", icon: siGoogleforms, used: "Captura de ventas y asistencia conectada a hojas de cálculo." },
-  { name: "Machine Learning", color: "#C2410C", icon: <BrainCircuit />, used: "Modelo Random Forest para predecir el riesgo de deserción (tesis)." },
-  { name: "Pandas", color: "#150458", icon: siPandas, used: "Limpieza y análisis de datos de la ENAHO para la tesis." },
-  { name: "NumPy", color: "#4DABCF", icon: siNumpy, used: "Cálculo numérico en mis notebooks de análisis de datos." },
-  { name: "Jupyter", color: "#F37626", icon: siJupyter, used: "Mi entorno de análisis y práctica de Python." },
-  { name: "JavaScript", color: "#F7DF1E", icon: siJavascript, used: "Lógica de mis webs y automatizaciones en Apps Script." },
-  { name: "TypeScript", color: "#3178C6", icon: siTypescript, used: "Este portafolio está escrito en TypeScript." },
-  { name: "React", color: "#149ECA", icon: siReact, used: "Interfaz de este portafolio y de la calculadora universitaria." },
-  { name: "HTML", color: "#E34F26", icon: siHtml5, used: "Base de todas las webs que hago con Chente Solutions." },
-  { name: "CSS", color: "#663399", icon: siCss, used: "Diseño y animaciones, como la intro de este portafolio." },
-  { name: "Tailwind", color: "#06B6D4", icon: siTailwindcss, used: "Estilos de este portafolio." },
-  { name: "Vite", color: "#9135FF", icon: siVite, used: "Compilación rápida de mis proyectos web." },
-  { name: "Node.js", color: "#5FA04E", icon: siNodedotjs, used: "Herramientas de desarrollo y paquetes npm." },
-  { name: "Three.js", color: "#1d2433", icon: siThreedotjs, used: "Anatomy Explorer: visor web de órganos en 3D." },
-  { name: "C++", color: "#00599C", icon: siCplusplus, used: "Fundamentos de programación en la universidad." },
-  { name: "Git", color: "#F03C2E", icon: siGit, used: "Control de versiones de todos mis proyectos." },
-  { name: "GitHub", color: "#24292F", icon: siGithub, used: "Mis repositorios públicos, como LinkedIn Optimizer." },
-  { name: "Vercel", color: "#111111", icon: siVercel, used: "Despliegue de este portafolio y de mis webs." },
-  { name: "Claude", color: "#D97757", icon: siClaude, used: "Curso Claude: IA Aplicada aprobado y skills propias publicadas." },
-  { name: "Gemini", color: "#8E75B2", icon: siGooglegemini, used: "Generación de imágenes y video para mis proyectos." },
-  { name: "Notion", color: "#2a2a2a", icon: siNotion, used: "Organización de mi plan de estudio." },
-  { name: "Obsidian", color: "#7C3AED", icon: siObsidian, used: "Bóveda de notas de mi tesis." },
-  { name: "LaTeX", color: "#008080", icon: siLatex, used: "Mi CV en LaTeX (moderncv)." },
-  { name: "Zapier", color: "#FF4F00", icon: siZapier, used: "Automatizaciones entre Trello, Slack y hojas de cálculo." },
-  { name: "Trello", color: "#0052CC", icon: siTrello, used: "Tableros conectados a flujos de Zapier." },
-  { name: "ISO 27001", color: "#0F766E", icon: <ShieldCheck />, used: "Fundamentos de seguridad de la información (CTIC-UNI)." },
-  { name: "Soporte TI", color: "#475569", icon: <Wrench />, used: "Mantenimiento y revisión de equipos de cómputo en el hospital." },
+  { name: "Python", color: "#2f6fde", icon: siPython, used: "Tesis de deserción universitaria y cursos de Python y Machine Learning (CTIC-UNI)." },
+  { name: "SQL", color: "#38bdf8", icon: <Database />, used: "Revisión y control de bases de datos en el Área de Informática del hospital." },
+  { name: "Excel", color: "#22a565", icon: <FileSpreadsheet />, used: "Nivel intermedio: listados de repuestos, reportes y cuadres de caja." },
+  { name: "Power BI", color: "#f5c518", icon: <BarChart3 />, used: "Dashboards de KPI en el curso Claude: IA Aplicada." },
+  { name: "Google Sheets", color: "#22a565", icon: siGooglesheets, used: "Bases de clientes y registro de ventas con totales automáticos." },
+  { name: "Apps Script", color: "#2f6fde", icon: siGoogleappsscript, used: "Formulario de ventas con cuadre de caja y control de asistencia con QR." },
+  { name: "Google Forms", color: "#8b5cf6", icon: siGoogleforms, used: "Captura de ventas y asistencia conectada a hojas de cálculo." },
+  { name: "Machine Learning", color: "#ff7a1a", icon: <BrainCircuit />, used: "Modelo Random Forest para predecir el riesgo de deserción (tesis)." },
+  { name: "Pandas", color: "#8b5cf6", icon: siPandas, used: "Limpieza y análisis de datos de la ENAHO para la tesis." },
+  { name: "NumPy", color: "#38bdf8", icon: siNumpy, used: "Cálculo numérico en mis notebooks de análisis de datos." },
+  { name: "Jupyter", color: "#ff7a1a", icon: siJupyter, used: "Mi entorno de análisis y práctica de Python." },
+  { name: "JavaScript", color: "#f5c518", icon: siJavascript, used: "Lógica de mis webs y automatizaciones en Apps Script." },
+  { name: "TypeScript", color: "#2f6fde", icon: siTypescript, used: "Este portafolio está escrito en TypeScript." },
+  { name: "React", color: "#38bdf8", icon: siReact, used: "Interfaz de este portafolio y de la calculadora universitaria." },
+  { name: "HTML", color: "#e5484d", icon: siHtml5, used: "Base de todas las webs que hago con Chente Solutions." },
+  { name: "CSS", color: "#8b5cf6", icon: siCss, used: "Diseño y animaciones, como la intro de este portafolio." },
+  { name: "Tailwind", color: "#14b8a6", icon: siTailwindcss, used: "Estilos de este portafolio." },
+  { name: "Vite", color: "#8b5cf6", icon: siVite, used: "Compilación rápida de mis proyectos web." },
+  { name: "Node.js", color: "#22a565", icon: siNodedotjs, used: "Herramientas de desarrollo y paquetes npm." },
+  { name: "Three.js", color: "#1f2128", icon: siThreedotjs, used: "Anatomy Explorer: visor web de órganos en 3D." },
+  { name: "C++", color: "#2f6fde", icon: siCplusplus, used: "Fundamentos de programación en la universidad." },
+  { name: "Git", color: "#e5484d", icon: siGit, used: "Control de versiones de todos mis proyectos." },
+  { name: "GitHub", color: "#1f2128", icon: siGithub, used: "Mis repositorios públicos, como LinkedIn Optimizer." },
+  { name: "Vercel", color: "#1f2128", icon: siVercel, used: "Despliegue de este portafolio y de mis webs." },
+  { name: "Claude", color: "#ff7a1a", icon: siClaude, used: "Curso Claude: IA Aplicada aprobado y skills propias publicadas." },
+  { name: "Gemini", color: "#8b5cf6", icon: siGooglegemini, used: "Generación de imágenes y video para mis proyectos." },
+  { name: "Notion", color: "#1f2128", icon: siNotion, used: "Organización de mi plan de estudio." },
+  { name: "Obsidian", color: "#8b5cf6", icon: siObsidian, used: "Bóveda de notas de mi tesis." },
+  { name: "LaTeX", color: "#14b8a6", icon: siLatex, used: "Mi CV en LaTeX (moderncv)." },
+  { name: "Zapier", color: "#ff7a1a", icon: siZapier, used: "Automatizaciones entre Trello, Slack y hojas de cálculo." },
+  { name: "Trello", color: "#2f6fde", icon: siTrello, used: "Tableros conectados a flujos de Zapier." },
+  { name: "ISO 27001", color: "#14b8a6", icon: <ShieldCheck />, used: "Fundamentos de seguridad de la información (CTIC-UNI)." },
+  { name: "Soporte TI", color: "#38bdf8", icon: <Wrench />, used: "Mantenimiento y revisión de equipos de cómputo en el hospital." },
 ];
 
 // Ilumina u oscurece un color hex (amt negativo = más oscuro)
@@ -126,38 +126,71 @@ export default function SkillsKeyboard() {
         </div>
       </div>
 
-      {/* Teclado isométrico */}
+      {/* Teclado isométrico: maqueta de keycaps mecánicos sobre base negra mate */}
       <div className="relative w-full flex justify-center py-4 sm:py-6 overflow-x-clip">
+        {/* luz de estudio detrás del teclado */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_45%,rgba(255,255,255,0.07),transparent_60%)]" />
+        <div className="translate-x-5 scale-[0.94] sm:translate-x-0 sm:scale-100">
         <div
           role="group"
           aria-label="Teclado de habilidades"
-          className="grid grid-cols-6 gap-1.5 sm:gap-3 [transform:rotateX(52deg)_rotateZ(-38deg)] [transform-style:preserve-3d] p-3 sm:p-4 rounded-2xl bg-[#0b0e14] shadow-[10px_14px_0_#05070b,0_50px_80px_-20px_rgba(0,0,0,0.9)] -my-10 sm:-my-14"
+          className="relative [transform:rotateX(52deg)_rotateZ(-38deg)] -my-10 sm:-my-14 rounded-[22px] p-3.5 sm:p-5"
+          style={{
+            background: "linear-gradient(145deg, #23252c 0%, #121318 55%, #0b0c0f 100%)",
+            boxShadow: [
+              "inset 1.5px 1.5px 0 rgba(255,255,255,0.09)",
+              "inset -2px -2px 0 rgba(0,0,0,0.65)",
+              ...Array.from({ length: 12 }, (_, d) => `${d + 1}px ${d + 1}px 0 ${d < 2 ? "#17181d" : "#08090b"}`),
+              "30px 40px 60px rgba(0,0,0,0.75)",
+            ].join(", "),
+          }}
         >
-          {SKILLS.map((k, i) => {
-            const down = pressed === i;
-            const depth = down ? 2 : 7;
-            const side = shade(k.color, -0.45);
-            const shadow = Array.from({ length: depth }, (_, d) => `${d + 1}px ${d + 1}px 0 ${side}`).join(", ");
-            return (
-              <button
-                key={k.name}
-                type="button"
-                onClick={() => press(i)}
-                onFocus={() => setActive(i)}
-                aria-label={k.name}
-                aria-pressed={active === i}
-                className="relative w-9 h-9 sm:w-14 sm:h-14 rounded-[9px] sm:rounded-[10px] grid place-items-center transition-[transform,box-shadow] duration-150 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                style={{
-                  background: `linear-gradient(145deg, ${shade(k.color, 0.18)}, ${k.color} 55%, ${shade(k.color, -0.12)})`,
-                  color: isLight(k.color) ? "#111" : "#fff",
-                  boxShadow: `${shadow}, inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -2px 3px rgba(0,0,0,0.25)`,
-                  transform: down ? "translate(5px, 5px)" : active === i ? "translate(2px, 2px)" : "none",
-                }}
-              >
-                <Icon icon={k.icon} />
-              </button>
-            );
-          })}
+          <div className="flex flex-col gap-1.5 sm:gap-3">
+            {Array.from({ length: Math.ceil(SKILLS.length / 6) }, (_, row) => (
+              <div key={row} className="flex gap-1.5 sm:gap-3" style={{ marginLeft: `${[0, 0.35, 0.7, 0.2, 0.55, 0.9][row % 6]}rem` }}>
+                {SKILLS.slice(row * 6, row * 6 + 6).map((k, j) => {
+                  const i = row * 6 + j;
+                  const down = pressed === i;
+                  const depth = down ? 2 : 7;
+                  const side = shade(k.color, -0.5);
+                  const skirt = Array.from({ length: depth }, (_, d) => `${d + 1}px ${d + 1}px 0 ${d < 2 ? shade(k.color, -0.35) : side}`).join(", ");
+                  return (
+                    <button
+                      key={k.name}
+                      type="button"
+                      onClick={() => press(i)}
+                      onFocus={() => setActive(i)}
+                      aria-label={k.name}
+                      aria-pressed={active === i}
+                      className="relative w-9 h-9 sm:w-14 sm:h-14 rounded-[9px] sm:rounded-[11px] p-[3px] sm:p-[5px] transition-[transform,box-shadow] duration-150 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                      style={{
+                        // cuerpo del keycap: más claro arriba-izquierda (luz de estudio), más oscuro en los lados
+                        background: `linear-gradient(140deg, ${shade(k.color, 0.28)} 0%, ${k.color} 45%, ${shade(k.color, -0.22)} 100%)`,
+                        color: isLight(k.color) ? "#141414" : "#fff",
+                        boxShadow: `${skirt}, ${depth + 4}px ${depth + 6}px ${depth + 6}px rgba(0,0,0,0.55), inset 1px 1px 0 rgba(255,255,255,0.35)`,
+                        transform: down ? "translate(5px, 5px)" : active === i ? "translate(2px, 2px)" : "none",
+                      }}
+                    >
+                      {/* superficie superior cóncava con reflejo suave */}
+                      <span
+                        className="absolute inset-[3px] sm:inset-[5px] rounded-[7px] sm:rounded-[8px] grid place-items-center overflow-hidden"
+                        style={{
+                          background: `radial-gradient(ellipse 70% 60% at 50% 55%, ${shade(k.color, -0.1)} 0%, ${k.color} 62%, ${shade(k.color, 0.16)} 100%)`,
+                          boxShadow: "inset 0 1px 2px rgba(255,255,255,0.25), inset 0 -1px 2px rgba(0,0,0,0.25)",
+                        }}
+                      >
+                        <span aria-hidden="true" className="absolute -top-1/2 -left-1/4 w-[120%] h-full rotate-[-20deg] bg-gradient-to-b from-white/25 to-transparent" />
+                        <span className="relative w-full h-full grid place-items-center">
+                          <Icon icon={k.icon} />
+                        </span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
         </div>
       </div>
     </div>
