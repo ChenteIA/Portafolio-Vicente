@@ -5,17 +5,18 @@
   --font-display: "Montserrat", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  --color-brand-primary: #ffb693;
-  --color-brand-orange: #ff6b00;
-  --color-brand-cyan: #14d1ff;
-  --color-brand-bg: #0f131d;
-  --color-brand-surface: #1b2029;
-  --color-brand-surface-high: #252a34;
-  --color-brand-surface-highest: #30353f;
-  --color-brand-panel: #121622;
-  --color-brand-text: #dee2f0;
-  --color-brand-muted: #e2bfb0;
-  --color-brand-yellow: #ffda54;
+  --color-brand-primary: #ffb08a;
+  --color-brand-orange: #ff5a12;
+  --color-brand-cyan: #86a8ff;
+  --color-brand-bg: #0d1a45;
+  --color-brand-surface: #17296a;
+  --color-brand-surface-high: #1e3378;
+  --color-brand-surface-highest: #273e8a;
+  --color-brand-panel: #11205a;
+  --color-brand-text: #eee9e1;
+  --color-brand-muted: #cfc8bd;
+  --color-brand-yellow: #ffb48c;
+  --color-brand-pearl: #eee9e1;
 }
 
 html {
@@ -68,13 +69,13 @@ html {
 
 /* Custom background animations & grid effects */
 .tech-grid {
-  background-image: linear-gradient(to right, rgba(255, 107, 0, 0.08) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(255, 107, 0, 0.08) 1px, transparent 1px);
+  background-image: linear-gradient(to right, rgba(255, 90, 18, 0.08) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 90, 18, 0.08) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
 .glass-panel {
-  background: rgba(15, 19, 29, 0.65);
+  background: rgba(13, 26, 69, 0.72);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -98,11 +99,11 @@ html {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 107, 0, 0.2);
+  background: rgba(255, 90, 18, 0.2);
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 107, 0, 0.4);
+  background: rgba(255, 90, 18, 0.4);
 }
 
 /* ===== Teclado de habilidades en 3D real =====
