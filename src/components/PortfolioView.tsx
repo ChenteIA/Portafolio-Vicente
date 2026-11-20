@@ -3,6 +3,7 @@ import { Award, Terminal, ChevronRight, Mail, Database, FileSpreadsheet, Wrench,
 import type { Navigate } from "../App";
 import TerminalWindow from "./Terminal";
 import SkillsKeyboard from "./SkillsKeyboard";
+import DeviceMockup from "./DeviceMockup";
 import { PythonIcon, ClaudeIcon, PowerBIIcon, WhatsAppIcon, InstagramIcon } from "./icons";
 
 const WHATSAPP_URL = "https://wa.me/51971114393";
@@ -106,6 +107,7 @@ const PROJECTS = [
     solution: "Diseño, desarrollo y despliegue de sitios web rápidos y adaptados a celular.",
     result: "Este portafolio y una calculadora universitaria publicados y en uso.",
     stack: ["React", "TypeScript", "Vercel"],
+    mockup: { laptop: "/mockups/portafolio_laptop.webp", phone: "/mockups/portafolio_cel.webp", alt: "Este portafolio visto en laptop y en celular" },
   },
   {
     tag: "Automatización",
@@ -332,6 +334,11 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
             {PROJECTS.map((project) => (
               <article key={project.title} className="bg-gradient-to-b from-brand-surface to-brand-panel border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_24px_48px_-24px_rgba(0,0,0,0.8)] p-8 flex flex-col rounded-2xl hover:border-brand-orange/40 hover:-translate-y-1 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_30px_60px_-24px_rgba(255,107,0,0.25)] transition-all duration-300 group cursor-default relative overflow-hidden">
                 <div className={`absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r ${project.accent.bar} to-transparent opacity-50 group-hover:opacity-100 transition-opacity`} />
+                {"mockup" in project && project.mockup && (
+                  <div className="mb-6 -mx-2">
+                    <DeviceMockup {...project.mockup} />
+                  </div>
+                )}
                 <div className="inline-block bg-white/5 px-3 py-1 text-[10px] font-mono text-brand-cyan uppercase tracking-widest mb-4 w-fit font-bold border border-white/10 rounded">{project.tag}</div>
                 <h3 className={`text-2xl font-bold text-brand-text mb-4 transition-colors ${project.accent.title}`}>{project.title}</h3>
                 <dl className="text-brand-muted/80 flex-1 mb-6 text-sm space-y-4">
@@ -373,8 +380,10 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
               className="text-left bg-gradient-to-b from-brand-surface to-brand-panel border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_24px_48px_-24px_rgba(0,0,0,0.8)] p-6 rounded-2xl hover:border-brand-orange/40 hover:-translate-y-1 transition-all duration-300 group relative overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-b from-brand-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="text-3xl mb-4 group-hover:-translate-y-1 transition-transform relative z-10" aria-hidden="true">🎓</div>
-              <h3 className="text-xl font-bold text-brand-text mb-2 group-hover:text-brand-orange transition-colors relative z-10">Calculadora Universitaria</h3>
+              <div className="relative z-10 mb-5 -mx-1">
+                <DeviceMockup laptop="/mockups/calculadora_laptop.webp" phone="/mockups/calculadora_cel.webp" alt="La calculadora universitaria vista en laptop y en celular" />
+              </div>
+              <h3 className="text-xl font-bold text-brand-text mb-2 group-hover:text-brand-orange transition-colors relative z-10">🎓 Calculadora Universitaria</h3>
               <p className="text-brand-muted/70 text-sm leading-relaxed mb-8 relative z-10">
                 Calcula tu promedio final según la fórmula de 7 universidades del Perú y te dice cuánto necesitas para aprobar.
               </p>
