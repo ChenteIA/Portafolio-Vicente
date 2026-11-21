@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { memo, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import {
   siPython, siGooglesheets, siGoogleappsscript, siGoogleforms, siJavascript, siTypescript, siReact,
   siHtml5, siCss, siTailwindcss, siVite, siGit, siGithub, siVercel, siNodedotjs, siJupyter, siPandas,
@@ -68,18 +68,59 @@ const Icon = ({ icon }: { icon: Skill["icon"] }) =>
     <span className="w-[55%] h-[55%] [&>svg]:w-full [&>svg]:h-full" aria-hidden="true">{icon as ReactNode}</span>
   );
 
+// Estilos de cada tecla calculados una sola vez (no en cada render)
+const SIDES = [
+  // [clase de posición, dirección del degradado desde el borde libre hacia la base, luz inicio, luz fin]
+  ["kb3d-side-front", "to bottom", -0.18, -0.38],
+  ["kb3d-side-left", "to left", -0.34, -0.52],
+  ["kb3d-side-back", "to top", 0.06, -0.12],
+  ["kb3d-side-right", "to right", -0.08, -0.28],
+] as const;
+const KEY_STYLES = SKILLS.map((k) => ({
+  sides: SIDES.map(([, dir, a, b]) => `linear-gradient(${dir}, ${shade(k.color, a)}, ${shade(k.color, b)})`),
+  top: `linear-gradient(160deg, rgba(255,255,255,0.3), rgba(255,255,255,0) 42%), radial-gradient(ellipse 75% 65% at 50% 55%, ${shade(k.color, -0.08)} 0%, ${k.color} 60%, ${shade(k.color, 0.2)} 100%)`,
+  fg: isLight(k.color) ? "#141414" : "#fff",
+}));
+const ROW_OFFSETS = [0, 0.18, 0.36, 0.1, 0.28, 0.46];
+
+// 0 = reposo, 1 = elegida, 2 = presionada. Solo se vuelven a dibujar las teclas cuyo estado cambia.
+const Key = memo(function Key({ i, state, onPress, onFocusKey }: { i: number; state: 0 | 1 | 2; onPress: (i: number) => void; onFocusKey: (i: number) => void }) {
+  const k = SKILLS[i];
+  const st = KEY_STYLES[i];
+  return (
+    <button
+      type="button"
+      onClick={() => onPress(i)}
+      onFocus={() => onFocusKey(i)}
+      aria-label={k.name}
+      aria-pressed={state > 0}
+      className={`kb3d-key kb3d-s${state} focus-visible:outline-none group`}
+    >
+      {SIDES.map(([cls], n) => (
+        <span key={n} aria-hidden="true" className={`kb3d-side ${cls}`} style={{ background: st.sides[n] }} />
+      ))}
+      <span className="kb3d-top grid place-items-center group-focus-visible:ring-2 group-focus-visible:ring-white" style={{ background: st.top, color: st.fg }}>
+        <Icon icon={k.icon} />
+      </span>
+    </button>
+  );
+});
+
 export default function SkillsKeyboard() {
   const [active, setActive] = useState(0);
   const [pressed, setPressed] = useState<number | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-  const press = (i: number) => {
+  const activeRef = useRef(0);
+  activeRef.current = active;
+  const press = useCallback((i: number) => {
     setActive(i);
     setPressed(i);
     clearTimeout(timer.current);
     timer.current = setTimeout(() => setPressed(null), 180);
-  };
+  }, []);
+  const focusKey = useCallback((i: number) => setActive(i), []);
 
   // Teclado físico: una letra presiona la siguiente tecla que empieza con ella (solo con la sección visible)
   useEffect(() => {
@@ -92,13 +133,13 @@ export default function SkillsKeyboard() {
       if (r.bottom < 0 || r.top > window.innerHeight) return;
       const k = e.key.toLowerCase();
       if (k.length !== 1) return;
-      const order = SKILLS.map((_, i) => (active + 1 + i) % SKILLS.length);
+      const order = SKILLS.map((_, i) => (activeRef.current + 1 + i) % SKILLS.length);
       const hit = order.find((i) => SKILLS[i].name.toLowerCase().startsWith(k));
       if (hit !== undefined) press(hit);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  });
+  }, [press]);
 
   const s = SKILLS[active];
 
@@ -129,7 +170,7 @@ export default function SkillsKeyboard() {
       {/* Teclado 3D real (X, Y, Z): keycaps con caras laterales inclinadas sobre una bandeja negra con grosor */}
       <div className="relative w-full flex justify-center py-10 sm:py-14 overflow-x-clip">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_45%,rgba(255,255,255,0.07),transparent_60%)]" />
-        <div className="translate-x-3 sm:translate-x-0 [--k:31px] sm:[--k:54px]">
+        <div className="kb3d-wrap translate-x-3 sm:translate-x-0 [--k:31px] sm:[--k:54px]">
           <div
             role="group"
             aria-label="Teclado de habilidades"
@@ -141,48 +182,10 @@ export default function SkillsKeyboard() {
             {/* bandeja hundida con borde */}
             <div className="kb3d-tray rounded-[14px] p-2.5 sm:p-3.5 flex flex-col gap-2 sm:gap-3">
               {Array.from({ length: Math.ceil(SKILLS.length / 6) }, (_, row) => (
-                <div key={row} className="kb3d-row flex gap-2 sm:gap-3" style={{ marginLeft: `calc(var(--k) * ${[0, 0.18, 0.36, 0.1, 0.28, 0.46][row % 6]})` }}>
+                <div key={row} className="kb3d-row flex gap-2 sm:gap-3" style={{ marginLeft: `calc(var(--k) * ${ROW_OFFSETS[row % 6]})` }}>
                   {SKILLS.slice(row * 6, row * 6 + 6).map((k, j) => {
                     const i = row * 6 + j;
-                    const down = pressed === i;
-                    const light = isLight(k.color);
-                    return (
-                      <button
-                        key={k.name}
-                        type="button"
-                        onClick={() => press(i)}
-                        onFocus={() => setActive(i)}
-                        aria-label={k.name}
-                        aria-pressed={active === i}
-                        className="kb3d-key focus-visible:outline-none group"
-                        style={{
-                          transform: down ? "translateZ(calc(var(--k) * -0.16))" : active === i ? "translateZ(calc(var(--k) * -0.05))" : "translateZ(1px)",
-                        }}
-                      >
-                        {/* 4 caras laterales inclinadas, cada una con su luz */}
-                        {[0, 1, 2, 3].map((side) => (
-                          <span key={side} aria-hidden="true" className="kb3d-rot" style={{ transform: `rotateZ(${side * 90}deg)` }}>
-                            <span
-                              className="kb3d-side"
-                              style={{ background: `linear-gradient(to bottom, ${shade(k.color, [-0.18, -0.34, 0.06, -0.08][side])}, ${shade(k.color, [-0.38, -0.52, -0.12, -0.28][side])})` }}
-                            />
-                          </span>
-                        ))}
-                        {/* cara superior cóncava, elevada en Z */}
-                        <span
-                          className="kb3d-top grid place-items-center overflow-hidden group-focus-visible:ring-2 group-focus-visible:ring-white"
-                          style={{
-                            background: `radial-gradient(ellipse 75% 65% at 50% 55%, ${shade(k.color, -0.08)} 0%, ${k.color} 60%, ${shade(k.color, 0.2)} 100%)`,
-                            color: light ? "#141414" : "#fff",
-                          }}
-                        >
-                          <span aria-hidden="true" className="absolute -top-1/2 -left-1/4 w-[120%] h-full rotate-[-20deg] bg-gradient-to-b from-white/30 to-transparent" />
-                          <span className="relative w-full h-full grid place-items-center">
-                            <Icon icon={k.icon} />
-                          </span>
-                        </span>
-                      </button>
-                    );
+                    return <Key key={k.name} i={i} state={pressed === i ? 2 : active === i ? 1 : 0} onPress={press} onFocusKey={focusKey} />;
                   })}
                 </div>
               ))}
