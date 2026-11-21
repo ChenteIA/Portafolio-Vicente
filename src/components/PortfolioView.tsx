@@ -1,8 +1,12 @@
-import type { ReactNode } from "react";
+import { lazy, Suspense, useEffect, type ReactNode } from "react";
+
+// El teclado 3D (y sus íconos) se carga aparte para no frenar el inicio;
+// se precarga apenas el navegador queda libre, así ya está listo al llegar a la sección.
+const loadKeyboard = () => import("./SkillsKeyboard");
+const SkillsKeyboard = lazy(loadKeyboard);
 import { Award, Terminal, ChevronRight, Mail, Database, FileSpreadsheet, Wrench, ArrowUpRight } from "lucide-react";
 import type { Navigate } from "../App";
 import TerminalWindow from "./Terminal";
-import SkillsKeyboard from "./SkillsKeyboard";
 import DeviceMockup from "./DeviceMockup";
 import { PythonIcon, ClaudeIcon, PowerBIIcon, WhatsAppIcon, InstagramIcon } from "./icons";
 
@@ -169,6 +173,12 @@ interface PortfolioViewProps {
 }
 
 export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
+  useEffect(() => {
+    const w = window as Window & { requestIdleCallback?: (cb: () => void) => number };
+    if (w.requestIdleCallback) w.requestIdleCallback(() => void loadKeyboard());
+    else setTimeout(() => void loadKeyboard(), 1200);
+  }, []);
+
   return (
     <div className="w-full animate-fade-in relative z-10">
       <div className="max-w-5xl mx-auto px-6 md:px-10 pt-28 pb-32">
@@ -323,7 +333,9 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
         {/* 2. HABILIDADES: teclado 3D */}
         <section id="habilidades" className="mb-24 scroll-mt-28 relative">
           <SectionHeader n="02" title="Habilidades" />
-          <SkillsKeyboard />
+          <Suspense fallback={<div className="min-h-[560px] sm:min-h-[520px]" aria-hidden="true" />}>
+            <SkillsKeyboard />
+          </Suspense>
         </section>
 
         {/* 3. PROYECTOS */}

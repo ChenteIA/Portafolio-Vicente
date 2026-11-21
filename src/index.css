@@ -112,7 +112,7 @@ html {
   transform: rotateX(54deg) rotateZ(-40deg);
   transform-style: preserve-3d;
   background: linear-gradient(145deg, #26282f 0%, #15161b 55%, #0d0e12 100%);
-  box-shadow: inset 1.5px 1.5px 0 rgba(255, 255, 255, 0.1), 40px 50px 70px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 1.5px 1.5px 0 rgba(255, 255, 255, 0.1), 30px 40px 40px rgba(0, 0, 0, 0.7);
 }
 .kb3d-edge-front,
 .kb3d-edge-side {
@@ -143,6 +143,7 @@ html {
   box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.9), inset -1px -1px 0 rgba(255, 255, 255, 0.06);
 }
 .kb3d-row { transform-style: preserve-3d; }
+.kb3d-wrap { contain: layout style; }
 .kb3d-key {
   position: relative;
   width: var(--k);
@@ -150,26 +151,34 @@ html {
   flex: none;
   transform-style: preserve-3d;
   border-radius: 6px;
-  background: rgba(0, 0, 0, 0.55);
-  box-shadow: 0 0 calc(var(--k) * 0.2) rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.6);
+  transform: translateZ(1px);
   transition: transform 0.15s ease-out;
   cursor: pointer;
 }
-.kb3d-rot {
-  position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
-  pointer-events: none;
-}
-.kb3d-side {
-  position: absolute;
-  left: 0; bottom: 0;
-  width: var(--k);
-  height: calc(var(--k) * 0.383);
-  transform-origin: bottom;
-  transform: rotateX(-70.1deg);
+.kb3d-s1 { transform: translateZ(calc(var(--k) * -0.05)); }
+.kb3d-s2 { transform: translateZ(calc(var(--k) * -0.16)); }
+/* Caras laterales: cada una se apoya en su borde y se inclina 70.1° hacia arriba */
+.kb3d-side { position: absolute; pointer-events: none; }
+.kb3d-side-front {
+  left: 0; bottom: 0; width: var(--k); height: calc(var(--k) * 0.383);
+  transform-origin: bottom; transform: rotateX(-70.1deg);
   clip-path: polygon(13% 0, 87% 0, 100% 100%, 0 100%);
-  border-radius: 0 0 4px 4px;
+}
+.kb3d-side-back {
+  left: 0; top: 0; width: var(--k); height: calc(var(--k) * 0.383);
+  transform-origin: top; transform: rotateX(70.1deg);
+  clip-path: polygon(0 0, 100% 0, 87% 100%, 13% 100%);
+}
+.kb3d-side-left {
+  left: 0; top: 0; width: calc(var(--k) * 0.383); height: var(--k);
+  transform-origin: left; transform: rotateY(-70.1deg);
+  clip-path: polygon(0 0, 100% 13%, 100% 87%, 0 100%);
+}
+.kb3d-side-right {
+  right: 0; top: 0; width: calc(var(--k) * 0.383); height: var(--k);
+  transform-origin: right; transform: rotateY(70.1deg);
+  clip-path: polygon(0 13%, 100% 0, 100% 100%, 0 87%);
 }
 .kb3d-top {
   position: absolute;
