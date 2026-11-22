@@ -75,6 +75,8 @@ const TIMELINE = [
 ];
 
 const CERTIFICATIONS = [
+  "Programa Especializado en IA Generativa (250 h) · Universidad Autónoma del Perú",
+  "Toma de Decisiones y Estrategia Empresarial con IA (50 h) · Universidad Autónoma del Perú",
   "Aplicaciones de Inteligencia Artificial · PIT-UNI (nota 20)",
   "Claude: IA Aplicada · WE Educación Ejecutiva (30 h)",
   "Congreso de Ingeniería INGEICA",
