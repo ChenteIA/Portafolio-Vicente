@@ -11,7 +11,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Portafolio de Vicente Celis Arias, matemático e informático. Proyectos de análisis de datos, automatización y programación, más una calculadora de notas universitarias." />
-    <meta name="theme-color" content="#0f131d" />
+    <meta name="theme-color" content="#0d1a45" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href="https://vicente.chentesolutions.com/" />
 
@@ -56,9 +56,9 @@
   } catch (e) {}
   var EASE = "cubic-bezier(.23,1,.32,1)";
   var USERS = {
-    vicente: { name: "Vicente", color: "#ff6b00" },
-    datos: { name: "Datos", color: "#22d3ee" },
-    codigo: { name: "Código", color: "#facc15" },
+    vicente: { name: "Vicente", color: "#ff5a12" },
+    datos: { name: "Datos", color: "#86a8ff" },
+    codigo: { name: "Código", color: "#eee9e1" },
     diseno: { name: "Diseño", color: "#a78bfa" },
     claude: { name: "Claude Code", color: "#d97757", ai: true },
     codex: { name: "Codex", color: "#e8e8e8", ai: true }
@@ -67,7 +67,7 @@
   css.textContent =
     ".cv-layer{position:fixed;inset:0;z-index:9999;pointer-events:none;font-family:Inter,system-ui,sans-serif}" +
     ".cv-grid{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1px);background-size:22px 22px;opacity:0;transition:opacity .4s ease}" +
-    ".cv-bar{position:absolute;top:76px;left:50%;transform:translate(-50%,-14px);opacity:0;display:flex;align-items:center;gap:10px;padding:6px 12px 6px 8px;border-radius:999px;background:rgba(15,18,28,.92);border:1px solid rgba(255,255,255,.12);box-shadow:0 8px 30px rgba(0,0,0,.4);transition:transform .45s " + EASE + ",opacity .45s ease;white-space:nowrap}" +
+    ".cv-bar{position:absolute;top:76px;left:50%;transform:translate(-50%,-14px);opacity:0;display:flex;align-items:center;gap:10px;padding:6px 12px 6px 8px;border-radius:999px;background:rgba(13,26,69,.92);border:1px solid rgba(255,255,255,.12);box-shadow:0 8px 30px rgba(0,0,0,.4);transition:transform .45s " + EASE + ",opacity .45s ease;white-space:nowrap}" +
     ".cv-bar .dots{display:flex}.cv-bar .dot{width:22px;height:22px;border-radius:50%;border:2px solid #0f121c;margin-left:-6px;display:grid;place-items:center;font-size:10px;font-weight:700;color:#0f121c}.cv-bar .dot:first-child{margin-left:0}" +
     ".cv-bar span{color:#e5e7eb;font-size:12px;font-weight:600}.cv-bar .live{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e}" +
     ".cv-cur{position:absolute;left:0;top:0;transition:transform .5s " + EASE + ";will-change:transform}" +
@@ -85,15 +85,15 @@
     "@keyframes cvrise{from{clip-path:inset(100% -40px -40px -40px);transform:translateY(14px)}to{clip-path:inset(-40px -40px -40px -40px);transform:none}}" +
     ".cv-b-wipe{animation:cvwipe .6s cubic-bezier(.65,0,.35,1) both}.cv-b-down{animation:cvdown .7s cubic-bezier(.65,0,.35,1) both}.cv-b-rise{animation:cvrise .7s " + EASE + " both}" +
     ".cv-cur .st{display:block;margin-top:2px;font-size:9px;font-weight:600;opacity:.75}" +
-    ".cv-wel{position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:#0f131d;transition:background .5s ease,opacity .5s ease;font-family:'JetBrains Mono',ui-monospace,monospace}" +
-    ".cv-wel svg{width:128px;height:128px;transform:scale(.6);opacity:0;transition:transform .55s " + EASE + ",opacity .35s ease;filter:drop-shadow(0 18px 40px rgba(255,107,0,.25))}" +
+    ".cv-wel{position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:#0d1a45;transition:background .5s ease,opacity .5s ease;font-family:'JetBrains Mono',ui-monospace,monospace}" +
+    ".cv-wel svg{width:128px;height:128px;transform:scale(.6);opacity:0;transition:transform .55s " + EASE + ",opacity .35s ease;filter:drop-shadow(0 18px 40px rgba(255,90,18,.25))}" +
     ".cv-wel.in svg{transform:scale(1);opacity:1}" +
     ".cv-wel .bar{transform:translateY(-18px);transition:transform .35s " + EASE + " .15s}.cv-wel.in .bar{transform:none}" +
     ".cv-wel .d{transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .25s " + EASE + "}.cv-wel.in .d{transform:scale(1)}" +
     ".cv-wel .s{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .35s ease}.cv-wel.go .s{stroke-dashoffset:0}" +
     ".cv-wel .u{animation:cvblink .7s step-end infinite}@keyframes cvblink{50%{opacity:0}}" +
-    ".cv-wel .t{color:#dee2f0;font-size:15px;min-height:1.3em;letter-spacing:.02em}.cv-wel .t b{color:#ff6b00;font-weight:500}" +
-    ".cv-wel .n{font-family:Montserrat,system-ui,sans-serif;font-weight:800;font-size:clamp(30px,7vw,54px);color:#dee2f0;letter-spacing:-.02em;opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s " + EASE + "}.cv-wel .n.on{opacity:1;transform:none}.cv-wel .n i{font-style:normal;color:#ff6b00}" +
+    ".cv-wel .t{color:#dee2f0;font-size:15px;min-height:1.3em;letter-spacing:.02em}.cv-wel .t b{color:#ff5a12;font-weight:500}" +
+    ".cv-wel .n{font-family:Montserrat,system-ui,sans-serif;font-weight:800;font-size:clamp(30px,7vw,54px);color:#dee2f0;letter-spacing:-.02em;opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s " + EASE + "}.cv-wel .n.on{opacity:1;transform:none}.cv-wel .n i{font-style:normal;color:#ff5a12}" +
     ".cv-wel.out{background:transparent;pointer-events:none}.cv-wel.out .t,.cv-wel.out .n{opacity:0;transition:opacity .3s ease}" +
     ".cv-reveal{transition:opacity .4s ease!important}";
   document.head.appendChild(css);
@@ -122,10 +122,10 @@
     '<path class="bar" d="M0 14A14 14 0 0 1 14 0H50A14 14 0 0 1 64 14V18H0Z" fill="#252a34"/>' +
     '<circle class="d" style="transition-delay:.3s" cx="10" cy="9.5" r="2.6" fill="#ff5f57"/><circle class="d" style="transition-delay:.38s" cx="18" cy="9.5" r="2.6" fill="#febc2e"/><circle class="d" style="transition-delay:.46s" cx="26" cy="9.5" r="2.6" fill="#28c840"/>' +
     '<g fill="none" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path class="s" pathLength="1" d="M10 29L17 36L10 43" stroke="#ff6b00"/>' +
+    '<path class="s" pathLength="1" d="M10 29L17 36L10 43" stroke="#ff5a12"/>' +
     '<path class="s" pathLength="1" style="transition-delay:.12s" d="M21 31L26 42L31 31" stroke="#dee2f0"/>' +
     '<path class="s" pathLength="1" style="transition-delay:.24s" d="M45.1 32A5.8 5.8 0 1 0 45.1 41" stroke="#dee2f0"/>' +
-    '<path class="u" d="M48 45H55" stroke="#ff6b00"/></g></svg>' +
+    '<path class="u" d="M48 45H55" stroke="#ff5a12"/></g></svg>' +
     '<div class="t"></div><div class="n">Vicente <i>Celis</i></div>';
   document.body.appendChild(wel);
   var welText = wel.querySelector(".t"), welName = wel.querySelector(".n");

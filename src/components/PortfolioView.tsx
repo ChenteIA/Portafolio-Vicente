@@ -202,7 +202,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
             >
               <a
                 href="#contacto"
-                className="group inline-flex items-center gap-2 bg-brand-orange hover:bg-[#ff8a33] text-brand-bg font-mono font-bold text-[13px] sm:text-[15px] py-3 px-3 sm:px-5 rounded-xl border border-brand-orange transition-all shadow-[0_0_15px_rgba(255,107,0,0.3)] hover:shadow-[0_0_25px_rgba(255,107,0,0.5)] hover:-translate-y-0.5"
+                className="group inline-flex items-center gap-2 bg-brand-orange hover:bg-[#ff7a3d] text-brand-bg font-mono font-bold text-[13px] sm:text-[15px] py-3 px-3 sm:px-5 rounded-xl border border-brand-orange transition-all shadow-[0_0_15px_rgba(255,90,18,0.3)] hover:shadow-[0_0_25px_rgba(255,90,18,0.5)] hover:-translate-y-0.5"
               >
                 <Chevron className="text-brand-bg" />
                 <span>hablemos<span className="animate-pulse">_</span></span>
@@ -247,7 +247,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
                       <div className="absolute right-0 translate-x-1/2 flex items-center justify-center">
                         <div className="animate-orbit-reverse">
                           <div
-                            className="border border-brand-orange/40 px-3 md:px-4 py-1.5 md:py-2 rounded-full flex items-center gap-2 md:gap-2.5 text-white font-display text-[10px] md:text-sm font-semibold shadow-[0_0_15px_rgba(255,107,0,0.2)] whitespace-nowrap bg-slate-950/80"
+                            className="border border-brand-orange/40 px-3 md:px-4 py-1.5 md:py-2 rounded-full flex items-center gap-2 md:gap-2.5 text-white font-display text-[10px] md:text-sm font-semibold shadow-[0_0_15px_rgba(255,90,18,0.2)] whitespace-nowrap bg-brand-panel/85"
                             style={{ transform: `rotate(-${angle}deg)` }}
                           >
                             {tag.icon}
@@ -269,7 +269,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
               height={512}
               fetchPriority="high"
               decoding="async"
-              className="object-contain w-auto h-[90%] md:h-full z-10 relative drop-shadow-[0_0_35px_rgba(255,107,0,0.35)] hover:scale-103 transition-transform duration-500"
+              className="object-contain w-auto h-[90%] md:h-full z-10 relative drop-shadow-[0_0_35px_rgba(255,90,18,0.35)] hover:scale-103 transition-transform duration-500"
             />
           </div>
         </header>
@@ -336,7 +336,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {PROJECTS.map((project) => (
-              <article key={project.title} className="bg-gradient-to-b from-brand-surface to-brand-panel border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_24px_48px_-24px_rgba(0,0,0,0.8)] p-8 flex flex-col rounded-2xl hover:border-brand-orange/40 hover:-translate-y-1 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_30px_60px_-24px_rgba(255,107,0,0.25)] transition-all duration-300 group cursor-default relative overflow-hidden">
+              <article key={project.title} className="bg-gradient-to-b from-brand-surface to-brand-panel border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_24px_48px_-24px_rgba(0,0,0,0.8)] p-8 flex flex-col rounded-2xl hover:border-brand-orange/40 hover:-translate-y-1 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_30px_60px_-24px_rgba(255,90,18,0.25)] transition-all duration-300 group cursor-default relative overflow-hidden">
                 <div className={`absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r ${project.accent.bar} to-transparent opacity-50 group-hover:opacity-100 transition-opacity`} />
                 {"mockup" in project && project.mockup && (
                   <div className="mb-6 -mx-2">
@@ -432,7 +432,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
           <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 w-full sm:w-auto relative z-20">
             <a
               href="mailto:jesuscelisarias@gmail.com"
-              className="bg-brand-orange hover:bg-[#ff8a33] text-brand-bg font-mono font-bold py-4 px-10 rounded-xl transition-all tracking-widest uppercase text-sm flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(255,107,0,0.3)] hover:shadow-[0_0_30px_rgba(255,107,0,0.5)] transform hover:-translate-y-0.5"
+              className="bg-brand-orange hover:bg-[#ff7a3d] text-brand-bg font-mono font-bold py-4 px-10 rounded-xl transition-all tracking-widest uppercase text-sm flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(255,90,18,0.3)] hover:shadow-[0_0_30px_rgba(255,90,18,0.5)] transform hover:-translate-y-0.5"
             >
               <Mail className="w-5 h-5" />
               <span>Correo</span>

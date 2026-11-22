@@ -168,7 +168,7 @@ export default function Terminal() {
   };
 
   return (
-    <div className="rounded-xl border border-white/10 bg-[#0a0d14]/95 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,107,0,0.06),inset_0_1px_0_rgba(255,255,255,0.05)] overflow-hidden">
+    <div className="rounded-xl border border-white/10 bg-[#0a1540]/95 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,90,18,0.06),inset_0_1px_0_rgba(255,255,255,0.05)] overflow-hidden">
       {/* Barra de ventana */}
       <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
         <span className="w-3 h-3 rounded-full bg-[#ff5f57]" aria-hidden="true" />
