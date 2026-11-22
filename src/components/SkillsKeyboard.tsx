@@ -17,7 +17,7 @@ const SKILLS: Skill[] = [
   { name: "SQL", color: "#38bdf8", icon: <Database />, used: "Revisión y control de bases de datos en el Área de Informática del hospital." },
   { name: "Excel", color: "#22a565", icon: <FileSpreadsheet />, used: "Nivel intermedio: listados de repuestos, reportes y cuadres de caja." },
   { name: "Word", color: "#2f6fde", icon: <FileText />, used: "Informes técnicos, como el de mantenimiento de triciclos del Club Playa Bonita." },
-  { name: "NotebookLM", color: "#e5484d", icon: <BookOpen />, used: "Investigación de mi tesis y cuadernos de estudio para el canal Ayuda Universitaria." },
+  { name: "NotebookLM", color: "#e5484d", icon: <BookOpen />, used: "Investigación con una IA cerrada que responde solo con los archivos que le doy." },
   { name: "Power BI", color: "#f5c518", icon: <BarChart3 />, used: "Dashboards de KPI en el curso Claude: IA Aplicada." },
   { name: "Google Sheets", color: "#22a565", icon: siGooglesheets, used: "Bases de clientes y registro de ventas con totales automáticos." },
   { name: "Apps Script", color: "#2f6fde", icon: siGoogleappsscript, used: "Formulario de ventas con cuadre de caja y control de asistencia con QR." },
