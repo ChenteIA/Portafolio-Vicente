@@ -84,6 +84,7 @@ const COMMANDS: Record<string, { help: string; run: () => ReactNode }> = {
         <p>correo    {link("mailto:jesuscelisarias@gmail.com", "jesuscelisarias@gmail.com")}</p>
         <p>whatsapp  {link("https://wa.me/51971114393", "+51 971 114 393")}</p>
         <p>github    {link("https://github.com/ChenteIA", "github.com/ChenteIA")}</p>
+        <p>linkedin  {link("https://www.linkedin.com/in/vicente-celis-datascience", "linkedin.com/in/vicente-celis-datascience")}</p>
       </div>
     ),
   },

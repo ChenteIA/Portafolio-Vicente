@@ -2,10 +2,10 @@ import { memo, useCallback, useEffect, useRef, useState, type ReactNode } from "
 import {
   siPython, siGooglesheets, siGoogleappsscript, siGoogleforms, siJavascript, siTypescript, siReact,
   siHtml5, siCss, siTailwindcss, siVite, siGit, siGithub, siVercel, siNodedotjs, siJupyter, siPandas,
-  siNumpy, siCplusplus, siThreedotjs, siClaude, siNotion, siZapier, siTrello, siObsidian, siLatex, siGooglegemini,
+  siNumpy, siCplusplus, siThreedotjs, siClaude, siNotion, siObsidian, siLatex, siGooglegemini,
   type SimpleIcon,
 } from "simple-icons";
-import { Database, FileSpreadsheet, Wrench, ShieldCheck, BarChart3, BrainCircuit } from "lucide-react";
+import { Database, FileSpreadsheet, Wrench, ShieldCheck, BarChart3, BrainCircuit, FileText, BookOpen } from "lucide-react";
 
 // Teclado isométrico de habilidades: cada tecla es una herramienta que Vicente ha usado de verdad.
 // Se presiona con clic/toque o con la letra inicial en el teclado físico.
@@ -16,6 +16,8 @@ const SKILLS: Skill[] = [
   { name: "Python", color: "#2f6fde", icon: siPython, used: "Tesis de deserción universitaria y análisis de datos en mis notebooks." },
   { name: "SQL", color: "#38bdf8", icon: <Database />, used: "Revisión y control de bases de datos en el Área de Informática del hospital." },
   { name: "Excel", color: "#22a565", icon: <FileSpreadsheet />, used: "Nivel intermedio: listados de repuestos, reportes y cuadres de caja." },
+  { name: "Word", color: "#2f6fde", icon: <FileText />, used: "Informes técnicos, como el de mantenimiento de triciclos del Club Playa Bonita." },
+  { name: "NotebookLM", color: "#e5484d", icon: <BookOpen />, used: "Investigación de mi tesis y cuadernos de estudio para el canal Ayuda Universitaria." },
   { name: "Power BI", color: "#f5c518", icon: <BarChart3 />, used: "Dashboards de KPI en el curso Claude: IA Aplicada." },
   { name: "Google Sheets", color: "#22a565", icon: siGooglesheets, used: "Bases de clientes y registro de ventas con totales automáticos." },
   { name: "Apps Script", color: "#2f6fde", icon: siGoogleappsscript, used: "Formulario de ventas con cuadre de caja y control de asistencia con QR." },
@@ -42,8 +44,6 @@ const SKILLS: Skill[] = [
   { name: "Notion", color: "#1f2128", icon: siNotion, used: "Organización de mi plan de estudio." },
   { name: "Obsidian", color: "#8b5cf6", icon: siObsidian, used: "Bóveda de notas de mi tesis." },
   { name: "LaTeX", color: "#14b8a6", icon: siLatex, used: "Mi CV en LaTeX (moderncv)." },
-  { name: "Zapier", color: "#ff7a1a", icon: siZapier, used: "Automatizaciones entre Trello, Slack y hojas de cálculo." },
-  { name: "Trello", color: "#2f6fde", icon: siTrello, used: "Tableros conectados a flujos de Zapier." },
   { name: "ISO 27001", color: "#14b8a6", icon: <ShieldCheck />, used: "Fundamentos de seguridad de la información." },
   { name: "Soporte TI", color: "#38bdf8", icon: <Wrench />, used: "Mantenimiento y revisión de equipos de cómputo en el hospital." },
 ];
