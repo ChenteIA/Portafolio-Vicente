@@ -13,7 +13,7 @@ import { Database, FileSpreadsheet, Wrench, ShieldCheck, BarChart3, BrainCircuit
 type Skill = { name: string; used: string; color: string; icon: SimpleIcon | ReactNode };
 
 const SKILLS: Skill[] = [
-  { name: "Python", color: "#2f6fde", icon: siPython, used: "Tesis de deserción universitaria y cursos de Python y Machine Learning (CTIC-UNI)." },
+  { name: "Python", color: "#2f6fde", icon: siPython, used: "Tesis de deserción universitaria y análisis de datos en mis notebooks." },
   { name: "SQL", color: "#38bdf8", icon: <Database />, used: "Revisión y control de bases de datos en el Área de Informática del hospital." },
   { name: "Excel", color: "#22a565", icon: <FileSpreadsheet />, used: "Nivel intermedio: listados de repuestos, reportes y cuadres de caja." },
   { name: "Power BI", color: "#f5c518", icon: <BarChart3 />, used: "Dashboards de KPI en el curso Claude: IA Aplicada." },
@@ -37,14 +37,14 @@ const SKILLS: Skill[] = [
   { name: "Git", color: "#e5484d", icon: siGit, used: "Control de versiones de todos mis proyectos." },
   { name: "GitHub", color: "#1f2128", icon: siGithub, used: "Mis repositorios públicos, como LinkedIn Optimizer." },
   { name: "Vercel", color: "#1f2128", icon: siVercel, used: "Despliegue de este portafolio y de mis webs." },
-  { name: "Claude", color: "#ff7a1a", icon: siClaude, used: "Curso Claude: IA Aplicada aprobado y skills propias publicadas." },
+  { name: "Claude", color: "#ff7a1a", icon: siClaude, used: "Curso Claude: IA Aplicada aprobado y skills propias publicadas. También el curso de Aplicaciones de IA del PIT-UNI (nota 20)." },
   { name: "Gemini", color: "#8b5cf6", icon: siGooglegemini, used: "Generación de imágenes y video para mis proyectos." },
   { name: "Notion", color: "#1f2128", icon: siNotion, used: "Organización de mi plan de estudio." },
   { name: "Obsidian", color: "#8b5cf6", icon: siObsidian, used: "Bóveda de notas de mi tesis." },
   { name: "LaTeX", color: "#14b8a6", icon: siLatex, used: "Mi CV en LaTeX (moderncv)." },
   { name: "Zapier", color: "#ff7a1a", icon: siZapier, used: "Automatizaciones entre Trello, Slack y hojas de cálculo." },
   { name: "Trello", color: "#2f6fde", icon: siTrello, used: "Tableros conectados a flujos de Zapier." },
-  { name: "ISO 27001", color: "#14b8a6", icon: <ShieldCheck />, used: "Fundamentos de seguridad de la información (CTIC-UNI)." },
+  { name: "ISO 27001", color: "#14b8a6", icon: <ShieldCheck />, used: "Fundamentos de seguridad de la información." },
   { name: "Soporte TI", color: "#38bdf8", icon: <Wrench />, used: "Mantenimiento y revisión de equipos de cómputo en el hospital." },
 ];
 

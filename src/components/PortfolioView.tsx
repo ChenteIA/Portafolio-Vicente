@@ -75,9 +75,7 @@ const TIMELINE = [
 ];
 
 const CERTIFICATIONS = [
-  "Fundamentos de ISO 27001 · CTIC-UNI",
-  "Machine Learning con Python · CTIC-UNI",
-  "Python Básico e Intermedio · CTIC-UNI",
+  "Aplicaciones de Inteligencia Artificial · PIT-UNI (nota 20)",
   "Claude: IA Aplicada · WE Educación Ejecutiva (30 h)",
   "Congreso de Ingeniería INGEICA",
   "Talleres de Matemática Computacional",
