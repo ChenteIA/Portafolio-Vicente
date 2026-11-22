@@ -4,7 +4,7 @@ import { lazy, Suspense, useEffect, type ReactNode } from "react";
 // se precarga apenas el navegador queda libre, así ya está listo al llegar a la sección.
 const loadKeyboard = () => import("./SkillsKeyboard");
 const SkillsKeyboard = lazy(loadKeyboard);
-import { Award, Terminal, ChevronRight, Mail, Database, FileSpreadsheet, Wrench, ArrowUpRight } from "lucide-react";
+import { Linkedin, Award, Terminal, ChevronRight, Mail, Database, FileSpreadsheet, Wrench, ArrowUpRight } from "lucide-react";
 import type { Navigate } from "../App";
 import TerminalWindow from "./Terminal";
 import DeviceMockup from "./DeviceMockup";
@@ -131,15 +131,6 @@ const PROJECTS = [
     solution: "Informe técnico en Word y listado de repuestos en Excel, con versiones PDF.",
     result: "Documentación formal entregada en nombre del negocio familiar de bicicletas.",
     stack: ["Word", "Excel", "PDF"],
-  },
-  {
-    tag: "Productividad Ops",
-    title: "Infraestructura en Zaps",
-    accent: { bar: "from-brand-yellow", title: "group-hover:text-brand-yellow" },
-    problem: "Desconexión organizativa entre áreas multidisciplinarias.",
-    solution: "Integración de APIs de terceros y flujos de trabajo sin código.",
-    result: "Flujo 100% automatizado, donde registros activan notificaciones, tarjetas y alertas.",
-    stack: ["Zapier", "Trello", "Slack", "Sheets"],
   },
 ];
 
@@ -438,7 +429,7 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
           <p className="text-lg text-brand-muted/80 mb-12 max-w-2xl">
             Si buscas a alguien para tu equipo o necesitas ordenar datos, soporte informático, automatizar tareas o una web para tu negocio, escríbeme. Respondo por correo o WhatsApp.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto relative z-20">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 w-full sm:w-auto relative z-20">
             <a
               href="mailto:jesuscelisarias@gmail.com"
               className="bg-brand-orange hover:bg-[#ff8a33] text-brand-bg font-mono font-bold py-4 px-10 rounded-xl transition-all tracking-widest uppercase text-sm flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(255,107,0,0.3)] hover:shadow-[0_0_30px_rgba(255,107,0,0.5)] transform hover:-translate-y-0.5"
@@ -455,6 +446,16 @@ export default function PortfolioView({ onNavigate }: PortfolioViewProps) {
             >
               <WhatsAppIcon />
               <span>WhatsApp</span>
+            </a>
+
+            <a
+              href="https://www.linkedin.com/in/vicente-celis-datascience"
+              target="_blank"
+              rel="noreferrer"
+              className="bg-[#0A66C2] hover:bg-[#1877d6] text-white font-mono font-bold py-4 px-10 rounded-xl transition-all tracking-widest uppercase text-sm flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(10,102,194,0.3)] hover:shadow-[0_0_30px_rgba(10,102,194,0.5)] transform hover:-translate-y-0.5"
+            >
+              <Linkedin className="w-5 h-5" aria-hidden="true" />
+              <span>LinkedIn</span>
             </a>
 
             <a
